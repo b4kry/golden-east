@@ -10,7 +10,7 @@ function ProductCard({ product }: { product: Product }) {
       <div className="relative aspect-[3/2] overflow-hidden bg-muted">
         <Image
           src={product.image}
-          alt={product.name}
+          alt={product.nameEn}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -20,9 +20,9 @@ function ProductCard({ product }: { product: Product }) {
         <span className="self-start rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
           {product.category}
         </span>
-        <h3 className="text-base font-semibold">{product.name}</h3>
+        <h3 className="text-base font-semibold">{product.nameEn}</h3>
         <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
-          {product.description}
+          {product.shortDescriptionEn}
         </p>
         <Button variant="outline" size="sm" className="mt-auto w-fit" asChild>
           <Link href={`/products/${product.id}`}>Learn More</Link>

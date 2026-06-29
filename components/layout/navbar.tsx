@@ -27,7 +27,7 @@ function Navbar() {
             href="/"
             className="text-lg font-semibold tracking-tight"
           >
-            {company.shortName}
+            {company.nameEn}
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">

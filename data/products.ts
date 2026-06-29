@@ -1,46 +1,96 @@
-export interface Product {
-  id: string
+export interface CompositionItem {
   name: string
-  category: string
-  description: string
-  image: string
-  // TODO: Add product specifications — variety, grade, packaging options
-  // TODO: Add certifications — Organic, GlobalGAP, Fair Trade
-  // TODO: Add seasonality / harvest calendar
-  // TODO: Add export availability per region
+  value: string
 }
 
-export const featuredProducts: Product[] = [
+export interface Product {
+  id: string
+  slug: string
+
+  nameAr: string
+  nameEn: string
+
+  category: string
+
+  shortDescriptionAr: string
+  shortDescriptionEn: string
+
+  composition: CompositionItem[]
+
+  benefits: string[]
+
+  applicationRate: string
+
+  suitableCrops: string[]
+
+  image: string
+
+  brochure?: string
+
+  featured: boolean
+
+  heroProduct: boolean
+
+  sortOrder: number
+
+  status: "active" | "coming-soon"
+}
+
+export const products: Product[] = [
   {
-    id: "egyptian-wheat",
-    name: "Egyptian Premium Wheat",
-    category: "Grains",
-    description:
-      "High-grade wheat cultivated in the fertile Nile Delta. Known for excellent protein content and superior milling characteristics, it is a staple for bakeries and food processors across the region.",
-    image: "/products/wheat.svg",
-  },
-  {
-    id: "navel-oranges",
-    name: "Navel Oranges",
-    category: "Citrus",
-    description:
-      "Seedless, sweet oranges grown in Egypt's renowned citrus belt. Vibrant in colour, rich in flavour, and carefully sorted for export to premium markets worldwide.",
-    image: "/products/oranges.svg",
-  },
-  {
-    id: "egyptian-cotton",
-    name: "Extra-Long Staple Cotton",
-    category: "Fiber",
-    description:
-      "World-renowned Egyptian cotton with extra-long fibres. Prized by luxury textile mills for its exceptional softness, strength, and breathability.",
-    image: "/products/cotton.svg",
-  },
-  {
-    id: "medjool-dates",
-    name: "Medjool Dates",
-    category: "Fruits",
-    description:
-      "Premium large Medjool dates harvested from Egypt's southern oases. Naturally sweet with a rich, caramel-like flavour and a soft, meaty texture.",
-    image: "/products/dates.svg",
+    id: "best-cal",
+    slug: "best-cal",
+
+    nameAr: "بست كال",
+    nameEn: "Best Cal",
+
+    category: "Calcium Fertilizer",
+
+    shortDescriptionAr:
+      "سماد كالسيوم سائل مدعم بالبورون لتحسين العقد وجودة الثمار.",
+
+    shortDescriptionEn:
+      "Liquid calcium fertilizer enriched with boron for improving fruit set and quality.",
+
+    composition: [
+      {
+        name: "Calcium",
+        value: "18%",
+      },
+      {
+        name: "Nitrate",
+        value: "10%",
+      },
+      {
+        name: "Boron",
+        value: "1%",
+      },
+    ],
+
+    benefits: [
+      "زيادة صلابة الأنسجة النباتية",
+      "تحسين العقد",
+      "تقليل تساقط الأزهار والثمار",
+      "تحسين نمو الجذور",
+      "رفع مقاومة النبات للإجهاد",
+    ],
+
+    applicationRate: "1 لتر / فدان",
+
+    suitableCrops: [
+      "جميع المحاصيل الزراعية",
+    ],
+
+    image: "/products/best-cal.png",
+
+    brochure: "/docs/best-cal.pdf",
+
+    featured: true,
+
+    heroProduct: true,
+
+    sortOrder: 1,
+
+    status: "active",
   },
 ]
