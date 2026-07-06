@@ -6,14 +6,18 @@ import Image from "next/image"
 import { FlaskConical } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { QuoteButton } from "@/components/quote/quote-button"
 import { type Product } from "@/data/products"
+import { useLocale } from "@/contexts/locale-context"
+import type { Dictionary } from "@/lib/i18n"
 
 const barColors = [
-  "bg-blue-500",
-  "bg-emerald-500",
-  "bg-amber-500",
-  "bg-violet-500",
-  "bg-rose-500",
+  "bg-primary",
+  "bg-secondary",
+  "bg-accent",
+  "bg-primary/60",
+  "bg-secondary/60",
 ]
 
 function parsePercent(value: string): number {
@@ -29,14 +33,14 @@ function CompositionVisual({ product }: { product: Product }) {
 
   return (
     <div className="flex h-full flex-col justify-end gap-2 p-5">
-      <FlaskConical className="mb-1 size-5 text-white/60" />
-      <div className="space-y-1.5">
+      <FlaskConical className="mb-1 size-5 text-white/60" aria-hidden="true" />
+      <div className="space-y-1.5" role="img" aria-label={`Composition: ${product.composition.map(c => `${c.name} ${c.value}`).join(", ")}`}>
         {product.composition.map((item, i) => {
           const pct = parsePercent(item.value)
           const width = Math.max((pct / maxVal) * 100, 8)
           return (
             <div key={item.name} className="flex items-center gap-2">
-              <span className="w-16 shrink-0 text-right text-xs font-medium text-white/80">
+              <span className="w-16 shrink-0 text-end text-xs font-medium text-white/80">
                 {item.name}
               </span>
               <div className="flex-1 overflow-hidden rounded-full bg-white/10">
@@ -45,7 +49,7 @@ function CompositionVisual({ product }: { product: Product }) {
                   style={{ width: `${width}%` }}
                 />
               </div>
-              <span className="w-10 shrink-0 text-right text-xs font-semibold text-white/90">
+              <span className="w-10 shrink-0 text-end text-xs font-semibold text-white/90">
                 {item.value}
               </span>
             </div>
@@ -61,12 +65,12 @@ function CardVisual({ product }: { product: Product }) {
 
   if (!imgError) {
     return (
-      <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950">
+      <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-primary to-primary/80">
         <Image
-          src={product.image}
+          src={product.images.cover}
           alt={product.nameEn}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-110"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           onError={() => setImgError(true)}
         />
@@ -75,35 +79,38 @@ function CardVisual({ product }: { product: Product }) {
   }
 
   return (
-    <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950">
+    <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-primary to-primary/80">
       <CompositionVisual product={product} />
     </div>
   )
 }
 
-function ProductCard({ product }: { product: Product }) {
+function ProductCard({ product, dict }: { product: Product; dict: Dictionary }) {
+  const locale = useLocale()
+  const isArabic = locale === "ar"
+
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-border/50 bg-card transition-colors hover:border-border">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border/50 bg-card shadow-card transition-all duration-200 ease-out hover:border-border/80 hover:shadow-card-hover">
       <CardVisual product={product} />
-      <div className="flex flex-1 flex-col gap-3 p-5 sm:p-6">
-        <span className="self-start rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-          {product.category}
-        </span>
-        <h3 className="text-base font-semibold">{product.nameEn}</h3>
+      <div className="flex flex-1 flex-col gap-4 p-6">
+        <Badge variant="default" className="self-start">{product.category}</Badge>
+        <h3 className="text-lg font-semibold leading-snug text-foreground">
+          {isArabic ? product.nameAr : product.nameEn}
+        </h3>
         <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
-          {product.shortDescriptionEn}
+          {isArabic ? product.shortDescriptionAr : product.shortDescriptionEn}
         </p>
 
         {product.composition.length > 0 && (
           <div>
-            <p className="mb-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Composition
+            <p className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
+              {dict.products.composition}
             </p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="mt-2 flex flex-wrap gap-1.5" aria-label={`${dict.products.composition}: ${product.composition.map(c => `${c.name} ${c.value}`).join(", ")}`}>
               {product.composition.map((item) => (
                 <span
                   key={item.name}
-                  className="rounded-md border border-border/60 bg-muted/50 px-2 py-0.5 text-xs font-medium text-foreground"
+                  className="rounded-md border border-border/60 bg-surface-alt px-2 py-0.5 text-xs font-medium text-muted-foreground"
                 >
                   {item.name} {item.value}
                 </span>
@@ -112,34 +119,17 @@ function ProductCard({ product }: { product: Product }) {
           </div>
         )}
 
-        {product.benefits.length > 0 && (
-          <div>
-            <p className="mb-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Key Benefits
-            </p>
-            <ul className="space-y-1">
-              {product.benefits.slice(0, 3).map((benefit, i) => (
-                <li
-                  key={i}
-                  className="text-xs leading-relaxed text-muted-foreground"
-                >
-                  {benefit}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {product.applicationRate && (
-          <p className="text-xs text-muted-foreground">
-            <span className="font-medium text-foreground">Application:</span>{" "}
-            {product.applicationRate}
-          </p>
-        )}
-
-        <Button variant="outline" size="sm" className="mt-auto w-fit" asChild>
-          <Link href={`/products/${product.id}`}>Learn More</Link>
-        </Button>
+        <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
+          <Button variant="outline" size="sm" asChild>
+            <Link
+              href={`/${locale}/products/${product.slug}`}
+              aria-label={`${dict.products.learnMore} ${isArabic ? product.nameAr : product.nameEn}`}
+            >
+              {dict.products.learnMore}
+            </Link>
+          </Button>
+          <QuoteButton product={product} label={dict.products.addToQuote} />
+        </div>
       </div>
     </article>
   )

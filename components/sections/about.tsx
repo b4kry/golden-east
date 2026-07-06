@@ -1,42 +1,65 @@
-import { Section, SectionHeader } from "@/components/sections/section"
-import { company } from "@/data/company"
-import { cn } from "@/lib/utils"
+import { Section, SectionHeader } from "@/components/layout/section"
+import { Card } from "@/components/ui/card"
+import { Grid } from "@/components/layout/grid"
+import { company, about } from "@/data/company"
+import { getDictionary, isLocale, defaultLocale } from "@/lib/i18n"
 
-const contactItems = [
-  { label: "Address", value: `${company.location.address}, ${company.location.city}, ${company.location.country}` },
-  { label: "Phone", value: company.phones[0] },
-  { label: "Email", value: company.email || "TODO" },
-] as const
+async function About({ locale }: { locale?: string }) {
+  const resolvedLocale =
+    locale && isLocale(locale) ? locale : defaultLocale
+  const dict = await getDictionary(resolvedLocale)
+  const isArabic = resolvedLocale === "ar"
+  const name = isArabic ? company.nameAr : company.nameEn
+  const tagline = isArabic ? company.taglineAr : company.taglineEn
+  const description = isArabic ? company.descriptionAr : company.descriptionEn
 
-function About() {
   return (
     <Section>
       <SectionHeader
-        label="About"
-        title={company.nameEn}
-        description={company.taglineEn}
+        label={dict.about.title}
+        title={name}
+        description={tagline}
       />
-      <p className="mx-auto mt-12 max-w-3xl text-center text-base leading-8 text-muted-foreground sm:text-lg sm:leading-8">
-        {company.descriptionEn}
+      <p className="mx-auto mt-12 max-w-3xl text-center text-lg leading-relaxed text-muted-foreground">
+        {description}
       </p>
-      <div className="mt-16 grid gap-4 sm:grid-cols-3">
-        {contactItems.map((item) => (
-          <div
-            key={item.label}
-            className={cn(
-              "rounded-xl border border-border/50 bg-card p-5 text-center sm:p-6",
-              !item.value || item.value === "TODO" ? "opacity-40" : "",
-            )}
-          >
-            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-              {item.label}
-            </p>
-            <p className="mt-2 text-sm font-medium leading-relaxed">
-              {item.value || "—"}
-            </p>
-          </div>
-        ))}
-      </div>
+
+      {about.missionEn && (
+        <div className="mx-auto mt-16 max-w-3xl rounded-2xl border border-border/50 bg-card p-8 shadow-card">
+          <p className="text-sm font-semibold text-primary">
+            {dict.about.mission}
+          </p>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+            {isArabic && about.missionAr ? about.missionAr : about.missionEn}
+          </p>
+        </div>
+      )}
+
+      {about.visionEn && (
+        <div className="mx-auto mt-6 max-w-3xl rounded-2xl border border-border/50 bg-card p-8 shadow-card">
+          <p className="text-sm font-semibold text-primary">
+            {dict.about.vision}
+          </p>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+            {isArabic && about.visionAr ? about.visionAr : about.visionEn}
+          </p>
+        </div>
+      )}
+
+      {about.stats.length > 0 && (
+        <Grid cols={3} gap={6} className="mt-16">
+          {about.stats.map((stat) => (
+            <Card key={stat.labelEn} className="p-6 text-center shadow-card transition-shadow duration-200 hover:shadow-card-hover sm:p-8">
+              <p className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+                {isArabic && stat.valueAr ? stat.valueAr : stat.valueEn}
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {isArabic && stat.labelAr ? stat.labelAr : stat.labelEn}
+              </p>
+            </Card>
+          ))}
+        </Grid>
+      )}
     </Section>
   )
 }

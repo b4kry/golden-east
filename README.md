@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Golden East Agricultural Development
+
+B2B quote request platform for agricultural fertilizers and plant nutrition products. Bilingual (Arabic/English) corporate website built with Next.js 16.
+
+## Overview
+
+This platform connects agricultural businesses with premium plant nutrition solutions through a streamlined quote request system. Users browse the product catalog, build a quote by selecting products with desired quantities, submit their contact information, and a sales team member follows up.
+
+This is **not** an e-commerce site — there is no pricing, no payment, and no checkout. All transactions are handled offline by the sales team.
+
+## Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| **Next.js 16** | Framework (App Router, SSR, API routes) |
+| **React 19** | UI library |
+| **TypeScript 5** | Type safety (strict mode) |
+| **Tailwind CSS v4** | Styling (utility-first, CSS-first config) |
+| **shadcn/ui** | Accessible UI primitives (radix-nova style) |
+| **Radix UI** | Headless component primitives |
+| **Lucide React** | Icon library |
+
+## Project Structure
+
+```
+app/                  — Next.js App Router (routes, API, layouts)
+  [locale]/           — Locale-scoped pages (en, ar)
+  api/                — API routes (contact, quote)
+components/           — UI components by role
+  layout/             — Structural (navbar, footer, container)
+  sections/           — Page sections (hero, about, products)
+  shared/             — Reusable (product-card)
+  ui/                 — shadcn primitives (button, sheet)
+  quote/              — Quote system (button, cart)
+contexts/             — React contexts (locale, quote)
+data/                 — Business data (company, products, navigation)
+lib/                  — Utilities (i18n, cn)
+messages/             — JSON translations (en, ar)
+proxy.ts              — Locale detection and redirect
+public/               — Static assets
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command | Action |
+|---------|--------|
+| `npm run dev` | Start development server |
+| `npm run build` | Production build |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Internationalization
 
-## Learn More
+The site supports English and Arabic with locale-based routing:
 
-To learn more about Next.js, take a look at the following resources:
+- `/en` — English
+- `/ar` — Arabic
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Language is detected automatically from the browser's `Accept-Language` header. Users can switch languages via the toggle in the navigation bar. Arabic pages render with RTL layout.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Documentation
 
-## Deploy on Vercel
+| File | Contents |
+|------|----------|
+| `PROJECT.md` | Project vision, goals, philosophy |
+| `ARCHITECTURE.md` | Technical architecture, data flow, routing |
+| `ROADMAP.md` | Development phases and milestones |
+| `DECISIONS.md` | Architectural decision records |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployed on Netlify. Push to the main branch to trigger automatic deployment.
+
+```bash
+# Preview deployment
+netlify deploy
+
+# Production deployment
+netlify deploy --prod
+```
