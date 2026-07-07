@@ -1,13 +1,14 @@
 import { Cairo, Manrope } from "next/font/google"
 import type { Metadata } from "next"
 import "@/app/globals.css"
-import { locales, isLocale, getDictionary } from "@/lib/i18n"
+import { locales, isLocale, getDictionary, SITE_URL } from "@/lib/i18n"
 import { company, about } from "@/data/company"
 import { LocaleProvider } from "@/contexts/locale-context"
 import { QuoteProvider } from "@/contexts/quote-context"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { WhatsAppButton } from "@/components/shared/whatsapp-button"
+import { ToastProvider } from "@/components/ui/toast"
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -24,8 +25,6 @@ const manrope = Manrope({
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }
-
-const siteUrl = "https://goldeneast-agri.com"
 
 export async function generateMetadata({
   params,
@@ -48,6 +47,7 @@ export async function generateMetadata({
       template: `%s | ${isArabic ? company.nameAr : company.nameEn}`,
     },
     description,
+    metadataBase: new URL(SITE_URL),
     keywords: [
       "Golden East",
       "Plant Nutrition",
@@ -60,32 +60,45 @@ export async function generateMetadata({
       isArabic ? "جولدن إيست" : "",
       isArabic ? "تغذية النبات" : "",
       isArabic ? "أسمدة زراعية" : "",
+      isArabic ? "أسمدة متخصصة" : "",
+      isArabic ? "تنمية زراعية" : "",
     ].filter(Boolean),
-    metadataBase: new URL(siteUrl),
+    authors: [{ name: company.nameEn }],
+    creator: company.nameEn,
+    publisher: company.nameEn,
+    robots: {
+      index: true,
+      follow: true,
+    },
     alternates: {
-      canonical: `${siteUrl}/${locale}`,
+      canonical: `${SITE_URL}/${locale}`,
       languages: {
-        en: `${siteUrl}/en`,
-        ar: `${siteUrl}/ar`,
+        en: `${SITE_URL}/en`,
+        ar: `${SITE_URL}/ar`,
       },
     },
     openGraph: {
       title,
       description,
-      url: `${siteUrl}/${locale}`,
-      siteName: company.nameEn,
+      url: `${SITE_URL}/${locale}`,
+      siteName: isArabic ? company.nameAr : company.nameEn,
       locale: locale === "ar" ? "ar_EG" : "en_US",
       alternateLocale: locale === "ar" ? ["en_US"] : ["ar_EG"],
       type: "website",
+      images: [
+        {
+          url: `${SITE_URL}/opengraph-image.png`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-    },
-    robots: {
-      index: true,
-      follow: true,
+      images: [`${SITE_URL}/opengraph-image.png`],
     },
     icons: {
       icon: [
@@ -118,14 +131,16 @@ export default async function RootLayout({
   const isArabic = locale === "ar"
   const dict = await getDictionary(locale)
 
-  const jsonLd = {
+  const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: company.nameEn,
     alternateName: company.nameAr,
-    url: siteUrl,
-    logo: `${siteUrl}/brand/logo.svg`,
+    url: SITE_URL,
+    logo: `${SITE_URL}/brand/logo.svg`,
     description: company.descriptionEn,
+    foundingDate: "2016",
+    mission: about.missionEn,
     address: {
       "@type": "PostalAddress",
       streetAddress: company.location.address,
@@ -133,9 +148,29 @@ export default async function RootLayout({
       addressCountry: company.location.country,
     },
     knowsLanguage: ["en", "ar"],
-    foundingDate: "2016",
-    mission: about.missionEn,
     keywords: "agricultural fertilizers, plant nutrition, Egypt agriculture",
+  }
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: isArabic ? company.nameAr : company.nameEn,
+    url: `${SITE_URL}/${locale}`,
+    description: isArabic ? company.descriptionAr : company.descriptionEn,
+    inLanguage: isArabic ? "ar" : "en",
+    publisher: {
+      "@type": "Organization",
+      name: company.nameEn,
+      logo: `${SITE_URL}/brand/logo.svg`,
+    },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/${locale}/search?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   }
 
   const fontVariable = isArabic ? cairo.variable : manrope.variable
@@ -145,12 +180,17 @@ export default async function RootLayout({
       lang={locale}
       dir={dir}
       className={`${fontVariable} h-full antialiased`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
       <body className="flex min-h-full flex-col">
@@ -162,12 +202,14 @@ export default async function RootLayout({
         </a>
         <LocaleProvider locale={locale}>
           <QuoteProvider>
-            <Navbar dict={dict} />
-            <main id="main-content" className="flex-1">
-              {children}
-            </main>
-            <Footer dict={dict} locale={locale} />
-            <WhatsAppButton />
+            <ToastProvider rtl={isArabic}>
+              <Navbar dict={dict} />
+              <main id="main-content" className="flex-1">
+                {children}
+              </main>
+              <Footer dict={dict} locale={locale} />
+              <WhatsAppButton />
+            </ToastProvider>
           </QuoteProvider>
         </LocaleProvider>
       </body>

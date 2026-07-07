@@ -1,10 +1,12 @@
+import Link from "next/link"
 import { Section, SectionHeader } from "@/components/layout/section"
 import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Grid } from "@/components/layout/grid"
 import { company, about } from "@/data/company"
 import { getDictionary, isLocale, defaultLocale } from "@/lib/i18n"
 
-async function About({ locale }: { locale?: string }) {
+async function About({ locale, compact }: { locale?: string; compact?: boolean }) {
   const resolvedLocale =
     locale && isLocale(locale) ? locale : defaultLocale
   const dict = await getDictionary(resolvedLocale)
@@ -24,41 +26,53 @@ async function About({ locale }: { locale?: string }) {
         {description}
       </p>
 
-      {about.missionEn && (
-        <div className="mx-auto mt-16 max-w-3xl rounded-2xl border border-border/50 bg-card p-8 shadow-card">
-          <p className="text-sm font-semibold text-primary">
-            {dict.about.mission}
-          </p>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-            {isArabic && about.missionAr ? about.missionAr : about.missionEn}
-          </p>
+      {compact ? (
+        <div className="mt-10 flex justify-center">
+          <Button asChild>
+            <Link href={`/${resolvedLocale}/about`}>
+              {dict.home.learnMore}
+            </Link>
+          </Button>
         </div>
-      )}
-
-      {about.visionEn && (
-        <div className="mx-auto mt-6 max-w-3xl rounded-2xl border border-border/50 bg-card p-8 shadow-card">
-          <p className="text-sm font-semibold text-primary">
-            {dict.about.vision}
-          </p>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-            {isArabic && about.visionAr ? about.visionAr : about.visionEn}
-          </p>
-        </div>
-      )}
-
-      {about.stats.length > 0 && (
-        <Grid cols={3} gap={6} className="mt-16">
-          {about.stats.map((stat) => (
-            <Card key={stat.labelEn} className="p-6 text-center shadow-card transition-shadow duration-200 hover:shadow-card-hover sm:p-8">
-              <p className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
-                {isArabic && stat.valueAr ? stat.valueAr : stat.valueEn}
+      ) : (
+        <>
+          {about.missionEn && (
+            <div className="mx-auto mt-16 max-w-3xl rounded-2xl border border-border/50 bg-card p-8 shadow-card">
+              <p className="text-sm font-semibold text-primary">
+                {dict.about.mission}
               </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {isArabic && stat.labelAr ? stat.labelAr : stat.labelEn}
+              <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                {isArabic && about.missionAr ? about.missionAr : about.missionEn}
               </p>
-            </Card>
-          ))}
-        </Grid>
+            </div>
+          )}
+
+          {about.visionEn && (
+            <div className="mx-auto mt-6 max-w-3xl rounded-2xl border border-border/50 bg-card p-8 shadow-card">
+              <p className="text-sm font-semibold text-primary">
+                {dict.about.vision}
+              </p>
+              <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                {isArabic && about.visionAr ? about.visionAr : about.visionEn}
+              </p>
+            </div>
+          )}
+
+          {about.stats.length > 0 && (
+            <Grid cols={3} gap={6} className="mt-16">
+              {about.stats.map((stat) => (
+                <Card key={stat.labelEn} className="p-6 text-center shadow-card transition-shadow duration-200 hover:shadow-card-hover sm:p-8">
+                  <p className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+                    {isArabic && stat.valueAr ? stat.valueAr : stat.valueEn}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {isArabic && stat.labelAr ? stat.labelAr : stat.labelEn}
+                  </p>
+                </Card>
+              ))}
+            </Grid>
+          )}
+        </>
       )}
     </Section>
   )

@@ -1,5 +1,5 @@
 import { Section, SectionHeader } from "@/components/layout/section"
-import { ProductCard } from "@/components/shared/product-card"
+import { ProductsCarousel } from "./products-carousel"
 import { products } from "@/data/products"
 import { getDictionary, isLocale, defaultLocale } from "@/lib/i18n"
 
@@ -19,10 +19,8 @@ async function Products({ locale }: { locale?: string }) {
         title={dict.products.featuredTitle}
         description={dict.products.description}
       />
-      <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {featured.map((product) => (
-          <ProductCard key={product.id} product={product} dict={dict} />
-        ))}
+      <div className="mt-16">
+        <ProductsCarousel products={featured} dict={dict} locale={resolvedLocale} />
       </div>
     </Section>
   )

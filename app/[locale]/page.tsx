@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
 import { Hero } from "@/components/sections/hero"
 import { About } from "@/components/sections/about"
-import { Products } from "@/components/sections/products"
 import { WhyChooseUs } from "@/components/sections/why-choose-us"
-import { locales, isLocale } from "@/lib/i18n"
+import { Products } from "@/components/sections/products"
+import { Cta } from "@/components/sections/cta"
+import { locales, isLocale, SITE_URL } from "@/lib/i18n"
 import { company } from "@/data/company"
 
 export function generateStaticParams() {
@@ -22,16 +23,58 @@ export async function generateMetadata({
   const name = isArabic ? company.nameAr : company.nameEn
   const description = isArabic ? company.descriptionAr : company.descriptionEn
   const tagline = isArabic ? company.taglineAr : company.taglineEn
+  const title = `${name} | ${tagline}`
 
   return {
-    title: `${name} | ${tagline}`,
+    title,
     description,
+    keywords: [
+      "Golden East",
+      "Agricultural Development",
+      "Plant Nutrition",
+      "Egypt Fertilizers",
+      "Crop Nutrition Solutions",
+      isArabic ? "جولدن إيست" : "",
+      isArabic ? "تنمية زراعية" : "",
+      isArabic ? "تغذية نبات" : "",
+      isArabic ? "أسمدة" : "",
+    ].filter(Boolean),
+    robots: {
+      index: true,
+      follow: true,
+    },
+    authors: [{ name: company.nameEn }],
+    creator: company.nameEn,
+    publisher: company.nameEn,
     alternates: {
-      canonical: `https://goldeneast-agri.com/${locale}`,
+      canonical: `${SITE_URL}/${locale}`,
+      languages: {
+        en: `${SITE_URL}/en`,
+        ar: `${SITE_URL}/ar`,
+      },
     },
     openGraph: {
-      title: `${name} | ${tagline}`,
+      title,
       description,
+      url: `${SITE_URL}/${locale}`,
+      siteName: isArabic ? company.nameAr : company.nameEn,
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      alternateLocale: locale === "ar" ? ["en_US"] : ["ar_EG"],
+      type: "website",
+      images: [
+        {
+          url: `${SITE_URL}/opengraph-image.png`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`${SITE_URL}/opengraph-image.png`],
     },
   }
 }
@@ -46,9 +89,10 @@ export default async function Home({
   return (
     <>
       <Hero locale={locale} />
-      <About locale={locale} />
-      <Products locale={locale} />
+      <About locale={locale} compact />
       <WhyChooseUs locale={locale} />
+      <Products locale={locale} />
+      <Cta locale={locale} />
     </>
   )
 }

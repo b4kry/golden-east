@@ -51,6 +51,7 @@ function Navbar({ dict }: { dict: Dictionary }) {
               height={32}
               className="hidden h-8 w-auto md:block"
               unoptimized
+              priority
             />
             <Image
               src="/brand/icon.svg"

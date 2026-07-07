@@ -1,6 +1,7 @@
 export interface CompositionItem {
   name: string
   value: string
+  nameAr?: string
 }
 
 export interface ProductSeo {
@@ -24,6 +25,7 @@ export interface Product {
   nameEn: string
 
   category: string
+  categoryAr?: string
 
   shortDescriptionAr: string
   shortDescriptionEn: string
@@ -31,10 +33,13 @@ export interface Product {
   composition: CompositionItem[]
 
   benefits: string[]
+  benefitsEn?: string[]
 
   applicationRate: string
+  applicationRateEn?: string
 
   suitableCrops: string[]
+  suitableCropsEn?: string[]
 
   images: ProductImages
 
@@ -47,6 +52,7 @@ export interface Product {
   status: "active" | "coming-soon"
 
   tags?: string[]
+  tagsAr?: string[]
 
   seo?: ProductSeo
 
@@ -56,6 +62,7 @@ export interface Product {
   unit?: string
 
   packaging?: string
+  packagingEn?: string
 
   relatedProductIds?: string[]
 
@@ -71,6 +78,7 @@ export const products: Product[] = [
     nameEn: "Best Cal",
 
     category: "Calcium Fertilizer",
+    categoryAr: "سماد كالسيوم",
 
     shortDescriptionAr:
       "سماد كالسيوم سائل مدعم بالبورون لتحسين العقد وجودة الثمار.",
@@ -79,9 +87,9 @@ export const products: Product[] = [
       "Liquid calcium fertilizer enriched with boron for improving fruit set and quality.",
 
     composition: [
-      { name: "Calcium", value: "18%" },
-      { name: "Nitrate", value: "10%" },
-      { name: "Boron", value: "1%" },
+      { name: "Calcium", value: "18%", nameAr: "كالسيوم" },
+      { name: "Nitrate", value: "10%", nameAr: "نترات" },
+      { name: "Boron", value: "1%", nameAr: "بورون" },
     ],
 
     benefits: [
@@ -134,9 +142,45 @@ export const products: Product[] = [
     status: "active",
 
     tags: ["calcium", "nitrate", "boron", "liquid-fertilizer", "foliar"],
+    tagsAr: ["كالسيوم", "نترات", "بورون", "سماد سائل", "رش ورقي"],
 
-
+    benefitsEn: [
+      "Increases plant tissue firmness",
+      "Enhances plant tolerance to high temperatures",
+      "Supports successful fertilization",
+      "Reduces flower drop after fruit set",
+      "Reduces fruit drop",
+      "Promotes root growth",
+      "Protects roots from rot and decay",
+      "Increases resistance to bacterial and fungal diseases",
+      "Improves storage capacity of fruits, tubers, and bulbs",
+      "Reduces harmful effects of excess sodium and magnesium",
+    ],
+    applicationRateEn: "1 liter / feddan (foliar spray)",
+    suitableCropsEn: [
+      "Citrus",
+      "Banana",
+      "Pomegranate",
+      "Grapes",
+      "Peaches",
+      "Plums",
+      "Tomato",
+      "Potato",
+      "Pepper",
+      "Eggplant",
+      "Cucumber",
+      "Onion",
+      "Garlic",
+      "Corn",
+      "Wheat",
+      "Cotton",
+      "Rice",
+      "Sugar Beet",
+      "Peanut",
+      "Medicinal and Aromatic Plants",
+    ],
     packaging: "عبوات 1 لتر / نصف لتر",
+    packagingEn: "1L / 0.5L bottles",
   },
   {
     id: "el-nesr",
@@ -146,6 +190,7 @@ export const products: Product[] = [
     nameEn: "El Nesr",
 
     category: "Liquid Fertilizer",
+    categoryAr: "سماد سائل",
 
     shortDescriptionAr:
       "سماد ورقي سائل متعدد العناصر مدعم بالأحماض الأمينية لتحسين النمو والإنتاج وجودة المحصول.",
@@ -154,10 +199,10 @@ export const products: Product[] = [
       "Multi-nutrient liquid foliar fertilizer enriched with amino acids for improved growth, yield, and crop quality.",
 
     composition: [
-      { name: "Nitrogen (N)", value: "10%" },
-      { name: "Potassium (K)", value: "10%" },
-      { name: "Magnesium (Mg)", value: "3%" },
-      { name: "Amino Acids", value: "23%" },
+      { name: "Nitrogen (N)", value: "10%", nameAr: "نيتروجين" },
+      { name: "Potassium (K)", value: "10%", nameAr: "بوتاسيوم" },
+      { name: "Magnesium (Mg)", value: "3%", nameAr: "ماغنسيوم" },
+      { name: "Amino Acids", value: "23%", nameAr: "أحماض أمينية" },
     ],
 
     benefits: [
@@ -196,11 +241,35 @@ export const products: Product[] = [
     sortOrder: 2,
 
     status: "active",
-
     tags: ["npk", "amino-acids", "liquid-fertilizer", "foliar"],
+    tagsAr: ["إن بي كي", "أحماض أمينية", "سماد سائل", "رش ورقي"],
 
-
+    benefitsEn:
+      [
+      "Stimulates balanced vegetative growth",
+      "Improves formation of vegetative mass",
+      "Increases absorption speed and nutrient utilization",
+      "Reduces nutrient loss",
+      "Improves flowering and fruit set",
+      "Increases fruit formation rate",
+      "Improves crop quality",
+      "Enhances plant resistance to heat, cold, and salinity stress",
+      "Boosts root activity and physiological functions",
+      "Increases chlorophyll formation and improves photosynthesis",
+    ],
+    applicationRateEn: "20 liters / feddan",
+    suitableCropsEn: [
+      "Field Crops",
+      "Vegetables",
+      "Fruit Crops",
+      "Forage Crops",
+      "Sugar Crops",
+      "Oil Crops",
+      "Medicinal and Aromatic Plants",
+      "Ornamental Plants",
+    ],
     packaging: "عبوات 20/10/5 لتر",
+    packagingEn: "20L / 10L / 5L containers",
   },
   {
     id: "first-one",
@@ -210,6 +279,7 @@ export const products: Product[] = [
     nameEn: "First One",
 
     category: "Water Soluble Fertilizer",
+    categoryAr: "سماد سريع الذوبان",
 
     shortDescriptionAr:
       "سماد سريع الذوبان في الماء يحتوي على العناصر الكبرى والكالسيوم ومدعم بالأحماض الأمينية.",
@@ -218,10 +288,10 @@ export const products: Product[] = [
       "Fast-dissolving water soluble fertilizer with macronutrients, calcium, and amino acids for vigorous growth.",
 
     composition: [
-      { name: "Nitrogen (N)", value: "24%" },
-      { name: "Potassium (K₂O)", value: "18%" },
-      { name: "Calcium (Ca)", value: "5%" },
-      { name: "Amino Acids", value: "Contains" },
+      { name: "Nitrogen (N)", value: "24%", nameAr: "نيتروجين" },
+      { name: "Potassium (K₂O)", value: "18%", nameAr: "بوتاسيوم" },
+      { name: "Calcium (Ca)", value: "5%", nameAr: "كالسيوم" },
+      { name: "Amino Acids", value: "Contains", nameAr: "أحماض أمينية" },
     ],
 
     benefits: [
@@ -246,6 +316,26 @@ export const products: Product[] = [
       "المحاصيل السكرية",
     ],
 
+    benefitsEn: [
+      "Stimulates vegetative growth",
+      "Improves pollination and fruit set",
+      "Promotes root formation",
+      "Increases plant growth rate",
+      "Accelerates cell division",
+      "Increases crop yield",
+      "Improves nutrient absorption",
+      "Enhances plant resistance to heat and salt stress",
+      "Increases disease resistance",
+      "Improves embryo formation within seeds",
+    ],
+    applicationRateEn: "Applied according to fertilization program",
+    suitableCropsEn: [
+      "Field Crops",
+      "Vegetables",
+      "Fruit Crops",
+      "Sugar Crops",
+    ],
+
     images: {
       cover: "/products/covers/firstone.png",
       gallery: [],
@@ -258,6 +348,7 @@ export const products: Product[] = [
     status: "active",
 
     tags: ["nitrogen", "potassium", "calcium", "amino-acids", "water-soluble"],
+    tagsAr: ["نيتروجين", "بوتاسيوم", "كالسيوم", "أحماض أمينية", "سريع الذوبان"],
 
   },
   {
@@ -268,6 +359,7 @@ export const products: Product[] = [
     nameEn: "Golden East Grow",
 
     category: "Compound Fertilizer",
+    categoryAr: "سماد مركب",
 
     shortDescriptionAr:
       "سماد مركب عالي الذوبان في الماء يحتوي على النيتروجين والكالسيوم والبوتاسيوم مدعماً بالأحماض الأمينية والعناصر الصغرى.",
@@ -276,11 +368,11 @@ export const products: Product[] = [
       "Highly water-soluble compound fertilizer with nitrogen, calcium, potassium, amino acids, and micronutrients.",
 
     composition: [
-      { name: "Nitrogen (N)", value: "8%" },
-      { name: "Calcium (Ca)", value: "5%" },
-      { name: "Potassium (K)", value: "12%" },
-      { name: "Amino Acids", value: "Contains" },
-      { name: "Micronutrients", value: "Contains" },
+      { name: "Nitrogen (N)", value: "8%", nameAr: "نيتروجين" },
+      { name: "Calcium (Ca)", value: "5%", nameAr: "كالسيوم" },
+      { name: "Potassium (K)", value: "12%", nameAr: "بوتاسيوم" },
+      { name: "Amino Acids", value: "Contains", nameAr: "أحماض أمينية" },
+      { name: "Micronutrients", value: "Contains", nameAr: "عناصر صغرى" },
     ],
 
     benefits: [
@@ -317,9 +409,29 @@ export const products: Product[] = [
     status: "active",
 
     tags: ["npk", "calcium", "potassium", "amino-acids", "micronutrients", "water-soluble"],
+    tagsAr: ["إن بي كي", "كالسيوم", "بوتاسيوم", "أحماض أمينية", "عناصر صغرى", "سريع الذوبان"],
 
-
+    benefitsEn: [
+      "Promotes balanced vegetative growth",
+      "Increases chlorophyll formation and improves green color",
+      "Improves flowering and fruit set",
+      "Reduces fruit cracking and internal cavities",
+      "Increases plant firmness and strengthens cell walls",
+      "Improves heat and salinity tolerance",
+      "Increases disease and stress resistance",
+      "Increases dry matter content and fruit quality",
+      "Improves seed, tuber, and bulb quality",
+      "Increases crop storage capacity",
+    ],
+    applicationRateEn: "1.5 – 2 kg / 200 L water (foliar) | 3 – 5 kg / feddan (soil)",
+    suitableCropsEn: [
+      "Vegetables",
+      "Fruit Crops",
+      "Field Crops",
+      "Medicinal and Aromatic Plants",
+    ],
     packaging: "عبوات 1 كجم / 5 كجم",
+    packagingEn: "1 kg / 5 kg packages",
   },
   {
     id: "golden-cal",
@@ -329,6 +441,7 @@ export const products: Product[] = [
     nameEn: "Golden Cal",
 
     category: "Calcium Nitrate Fertilizer",
+    categoryAr: "سماد نترات الكالسيوم",
 
     shortDescriptionAr:
       "سماد يعتمد على نترات الكالسيوم بتركيز 23% لعلاج نقص الكالسيوم وتحسين العقد وجودة الثمار.",
@@ -337,7 +450,7 @@ export const products: Product[] = [
       "Calcium nitrate based fertilizer at 23% concentration for calcium deficiency treatment and improved fruit set and quality.",
 
     composition: [
-      { name: "Calcium Nitrate", value: "23%" },
+      { name: "Calcium Nitrate", value: "23%", nameAr: "نترات الكالسيوم" },
     ],
 
     benefits: [
@@ -373,9 +486,28 @@ export const products: Product[] = [
     status: "active",
 
     tags: ["calcium", "calcium-nitrate", "nitrate", "liquid-fertilizer"],
+    tagsAr: ["كالسيوم", "نترات كالسيوم", "نترات", "سماد سائل"],
 
-
+    benefitsEn: [
+      "Increases flowering and improves fruit set percentage",
+      "Improves fruit quality and increases yield",
+      "Makes fruits firmer",
+      "Increases fruit tolerance to transport and storage",
+      "Treats calcium deficiency symptoms such as blossom end rot",
+      "Improves pollen grain growth and successful pollination",
+      "Improves fruit size uniformity and consistency",
+      "Strengthens cell walls and improves cell elongation",
+      "Increases resistance to fungal diseases",
+      "Helps lower soil pH around the root zone",
+    ],
+    applicationRateEn: "5 liters / feddan every 10 days",
+    suitableCropsEn: [
+      "Vegetables",
+      "Fruit Trees",
+      "Field Crops",
+    ],
     packaging: "عبوات 5 لتر / 10 لتر / 20 لتر",
+    packagingEn: "5L / 10L / 20L containers",
   },
   {
     id: "gold-fit",
@@ -385,6 +517,7 @@ export const products: Product[] = [
     nameEn: "Gold Fit",
 
     category: "NPK + Calcium + Sulfur Fertilizer",
+    categoryAr: "سماد NPK مع الكالسيوم والكبريت",
 
     shortDescriptionAr:
       "سماد سائل يحتوي على النيتروجين والبوتاسيوم والكالسيوم والكبريت لدعم النمو الخضري وتحسين العقد وجودة الثمار.",
@@ -393,10 +526,10 @@ export const products: Product[] = [
       "Liquid NPK fertilizer with calcium and sulfur for vegetative growth support, improved fruit set, and fruit quality.",
 
     composition: [
-      { name: "Nitrogen (N)", value: "5%" },
-      { name: "Potassium (K₂O)", value: "17%" },
-      { name: "Calcium (Ca)", value: "2.5%" },
-      { name: "Sulfur (S)", value: "3%" },
+      { name: "Nitrogen (N)", value: "5%", nameAr: "نيتروجين" },
+      { name: "Potassium (K₂O)", value: "17%", nameAr: "بوتاسيوم" },
+      { name: "Calcium (Ca)", value: "2.5%", nameAr: "كالسيوم" },
+      { name: "Sulfur (S)", value: "3%", nameAr: "كبريت" },
     ],
 
     benefits: [
@@ -431,7 +564,27 @@ export const products: Product[] = [
 
     status: "active",
 
+    benefitsEn: [
+      "Supports vegetative growth",
+      "Regulates water movement within the plant",
+      "Reduces stress from water deficiency",
+      "Enhances photosynthesis efficiency",
+      "Increases fruit cell wall firmness",
+      "Reduces susceptibility to fungal and bacterial diseases",
+      "Prevents calcium deficiency symptoms",
+      "Helps plants resist heat stress",
+      "Improves fruit set and sizing",
+      "Increases fruit size and quality",
+    ],
+    applicationRateEn: "3 liters / 600 L water (foliar spray)",
+    suitableCropsEn: [
+      "Vegetables",
+      "Fruit Trees",
+      "Field Crops",
+    ],
+
     tags: ["npk", "calcium", "sulfur", "liquid-fertilizer"],
+    tagsAr: ["إن بي كي", "كالسيوم", "كبريت", "سماد سائل"],
 
   },
   {
@@ -442,6 +595,7 @@ export const products: Product[] = [
     nameEn: "G-Salt",
 
     category: "Soil Salinity Treatment",
+    categoryAr: "معالج ملوحة التربة",
 
     shortDescriptionAr:
       "سماد متخصص لمعالجة ملوحة التربة يحتوي على الكالسيوم والنيتروجين والماغنسيوم ومواد عضوية.",
@@ -450,10 +604,10 @@ export const products: Product[] = [
       "Specialized soil salinity treatment fertilizer with calcium, nitrogen, magnesium, and organic matter.",
 
     composition: [
-      { name: "Calcium (Ca)", value: "15%" },
-      { name: "Nitrogen (N)", value: "10%" },
-      { name: "Magnesium (Mg)", value: "5%" },
-      { name: "Potassium (K)", value: "8%" },
+      { name: "Calcium (Ca)", value: "15%", nameAr: "كالسيوم" },
+      { name: "Nitrogen (N)", value: "10%", nameAr: "نيتروجين" },
+      { name: "Magnesium (Mg)", value: "5%", nameAr: "ماغنسيوم" },
+      { name: "Potassium (K)", value: "8%", nameAr: "بوتاسيوم" },
     ],
 
     benefits: [
@@ -490,7 +644,29 @@ export const products: Product[] = [
 
     status: "active",
 
+    benefitsEn: [
+      "Mitigates negative effects of soil and irrigation water salinity",
+      "Increases soil cation exchange capacity",
+      "Helps displace sodium from the exchange complex",
+      "Prevents formation of non-absorbable compounds",
+      "Maintains a healthy root zone for growth",
+      "Improves plant biological activity and stimulates root zone",
+      "Provides easily absorbable calcium, organic carbon, and nitrogen",
+      "Allows normal plant growth even under saline conditions",
+      "Reduces salinity stress symptoms",
+      "Suitable for all crop types and irrigation systems",
+    ],
+    applicationRateEn: "2.5 liters / feddan (drip irrigation) | 5 liters / feddan (flood irrigation)",
+    suitableCropsEn: [
+      "Vegetables",
+      "Fruit Crops",
+      "Field Crops",
+      "Medicinal and Aromatic Plants",
+      "Trees",
+    ],
+
     tags: ["salinity", "calcium", "soil-conditioner", "fertigation"],
+    tagsAr: ["ملوحة", "كالسيوم", "محسن تربة", "تسميد"],
 
   },
   {
@@ -501,6 +677,7 @@ export const products: Product[] = [
     nameEn: "Mix Gold Pure",
 
     category: "Micronutrient Fertilizer",
+    categoryAr: "سماد العناصر الصغرى",
 
     shortDescriptionAr:
       "سماد سريع الذوبان يحتوي على خليط متوازن من العناصر الصغرى الأساسية المخلبية.",
@@ -509,13 +686,13 @@ export const products: Product[] = [
       "Fast-dissolving fertilizer with a balanced blend of essential chelated micronutrients for all growth stages.",
 
     composition: [
-      { name: "Magnesium (Mg)", value: "0.5%" },
-      { name: "Iron (Fe)", value: "2%" },
-      { name: "Manganese (Mn)", value: "1%" },
-      { name: "Zinc (Zn)", value: "1%" },
-      { name: "Copper (Cu)", value: "0.2%" },
-      { name: "Boron (B)", value: "0.25%" },
-      { name: "Molybdenum (Mo)", value: "0.06%" },
+      { name: "Magnesium (Mg)", value: "0.5%", nameAr: "ماغنسيوم" },
+      { name: "Iron (Fe)", value: "2%", nameAr: "حديد" },
+      { name: "Manganese (Mn)", value: "1%", nameAr: "منجنيز" },
+      { name: "Zinc (Zn)", value: "1%", nameAr: "زنك" },
+      { name: "Copper (Cu)", value: "0.2%", nameAr: "نحاس" },
+      { name: "Boron (B)", value: "0.25%", nameAr: "بورون" },
+      { name: "Molybdenum (Mo)", value: "0.06%", nameAr: "مولبيدنيوم" },
     ],
 
     benefits: [
@@ -551,9 +728,28 @@ export const products: Product[] = [
     status: "active",
 
     tags: ["micronutrients", "chelated", "foliar", "fertigation"],
+    tagsAr: ["عناصر صغرى", "مخلبي", "رش ورقي", "تسميد"],
 
-
+    benefitsEn: [
+      "Activates the plant enzyme system",
+      "Contributes to chlorophyll formation",
+      "Participates in synthesizing respiration enzymes",
+      "Stimulates photosynthesis",
+      "Promotes cell division",
+      "Prevents micronutrient deficiency symptoms",
+      "Increases nutrient absorption efficiency",
+      "Improves vegetative growth",
+      "Helps improve crop quality",
+      "Contributes to resistance against fungal diseases caused by zinc deficiency",
+    ],
+    applicationRateEn: "2 liters / feddan (foliar spray or fertigation)",
+    suitableCropsEn: [
+      "Vegetables",
+      "Field Crops",
+      "Fruit Trees",
+    ],
     packaging: "عبوة 0.5 لتر",
+    packagingEn: "0.5L container",
   },
   {
     id: "new-future-green",
@@ -563,6 +759,7 @@ export const products: Product[] = [
     nameEn: "New Future Green",
 
     category: "Water Soluble Potassium Fertilizer",
+    categoryAr: "سماد بوتاسيوم سريع الذوبان",
 
     shortDescriptionAr:
       "سماد عالي الذوبان في الماء غني بالبوتاسيوم ومدعم بالنترات لتحسين الإزهار والعقد وجودة الثمار.",
@@ -571,8 +768,8 @@ export const products: Product[] = [
       "Highly water-soluble potassium-rich fertilizer with nitrate for improved flowering, fruit set, and fruit quality.",
 
     composition: [
-      { name: "Potassium (K₂O)", value: "45%" },
-      { name: "Nitrate Nitrogen (NO₃-N)", value: "10%" },
+      { name: "Potassium (K₂O)", value: "45%", nameAr: "بوتاسيوم" },
+      { name: "Nitrate Nitrogen (NO₃-N)", value: "10%", nameAr: "نيتروجين نتراتي" },
     ],
 
     benefits: [
@@ -606,9 +803,26 @@ export const products: Product[] = [
     status: "active",
 
     tags: ["potassium", "nitrate", "water-soluble", "flowering"],
+    tagsAr: ["بوتاسيوم", "نترات", "سريع الذوبان", "تزهير"],
 
-
+    benefitsEn: [
+      "Rich in potassium needed for all growth stages",
+      "Especially important during flowering and fruiting stages",
+      "Helps increase flowering and improves fruit set percentage",
+      "Improves fruit sizing and increases fruit weight and volume",
+      "Helps prevent nutrient deficiency symptoms",
+      "Improves plant growth and increases branching and elongation",
+      "Enhances crop quality",
+    ],
+    applicationRateEn: "40 kg / feddan (fruit trees) | 20 kg / feddan (vegetables)",
+    suitableCropsEn: [
+      "All Fruit Trees",
+      "All Vegetables",
+      "Field Crops",
+      "Medicinal and Aromatic Plants",
+    ],
     packaging: "عبوات 5 كجم / 10 كجم / 20 كجم",
+    packagingEn: "5 kg / 10 kg / 20 kg packages",
   },
   {
     id: "super-future-npk",
@@ -618,6 +832,7 @@ export const products: Product[] = [
     nameEn: "Super Future NPK",
 
     category: "Water Soluble NPK Fertilizer",
+    categoryAr: "سماد NPK سريع الذوبان",
 
     shortDescriptionAr:
       "سماد متوازن سريع الذوبان NPK (20-20-20) لتغذية النبات خلال جميع مراحل النمو.",
@@ -626,9 +841,9 @@ export const products: Product[] = [
       "Balanced water soluble NPK fertilizer (20-20-20) for complete plant nutrition throughout all growth stages.",
 
     composition: [
-      { name: "Nitrogen (N)", value: "20%" },
-      { name: "Phosphorus (P₂O₅)", value: "20%" },
-      { name: "Potassium (K₂O)", value: "20%" },
+      { name: "Nitrogen (N)", value: "20%", nameAr: "نيتروجين" },
+      { name: "Phosphorus (P₂O₅)", value: "20%", nameAr: "فوسفور" },
+      { name: "Potassium (K₂O)", value: "20%", nameAr: "بوتاسيوم" },
     ],
 
     benefits: [
@@ -665,8 +880,28 @@ export const products: Product[] = [
     status: "active",
 
     tags: ["npk", "balanced-fertilizer", "water-soluble", "foliar", "fertigation"],
+    tagsAr: ["إن بي كي", "سماد متوازن", "سريع الذوبان", "رش ورقي", "تسميد"],
 
-
+    benefitsEn: [
+      "Helps increase fruit size and improve color",
+      "Increases crop quality and productivity",
+      "Promotes root spread and growth",
+      "Improves fruit set and flowering",
+      "Helps increase branching",
+      "Accelerates crop maturity",
+      "Increases storage efficiency of vegetables and fruits",
+      "Improves fruit filling and raises sugar content",
+      "Stimulates vital processes and protein formation",
+      "Improves chlorophyll formation and activates plant enzymes",
+    ],
+    applicationRateEn: "2 kg / feddan (foliar spray or fertigation)",
+    suitableCropsEn: [
+      "Vegetables",
+      "Field Crops",
+      "Fruit Trees",
+      "Medicinal and Aromatic Plants",
+    ],
     packaging: "عبوات 5 كجم / 10 كجم / 20 كجم",
+    packagingEn: "5 kg / 10 kg / 20 kg packages",
   },
 ]

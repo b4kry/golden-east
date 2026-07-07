@@ -3,14 +3,12 @@ import Image from "next/image"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
-import { getDictionary, isLocale } from "@/lib/i18n"
+import { getDictionary, isLocale, SITE_URL } from "@/lib/i18n"
 import { products } from "@/data/products"
 import { company } from "@/data/company"
 import { Container } from "@/components/layout/container"
 import { Button } from "@/components/ui/button"
 import { QuoteButton } from "@/components/quote/quote-button"
-
-const siteUrl = "https://goldeneast-agri.com"
 
 export async function generateStaticParams() {
   const params: Array<{ locale: string; slug: string }> = []
@@ -42,24 +40,39 @@ export async function generateMetadata({
     : product.shortDescriptionEn
   const seoTitle = product.seo?.[isArabic ? "titleAr" : "titleEn"]
   const seoDesc = product.seo?.[isArabic ? "descriptionAr" : "descriptionEn"]
+  const metaTitle = `${seoTitle || name} | ${isArabic ? company.nameAr : company.nameEn}`
+  const metaDesc = seoDesc || description
+  const keywords = (isArabic && product.tagsAr ? product.tagsAr : product.tags)?.join(", ") || product.category
 
   return {
-    title: seoTitle || name,
-    description: seoDesc || description,
+    title: metaTitle,
+    description: metaDesc,
+    keywords,
+    robots: {
+      index: true,
+      follow: true,
+    },
+    authors: [{ name: company.nameEn }],
+    creator: company.nameEn,
+    publisher: company.nameEn,
     alternates: {
-      canonical: `${siteUrl}/${locale}/products/${product.slug}`,
+      canonical: `${SITE_URL}/${locale}/products/${product.slug}`,
       languages: {
-        en: `${siteUrl}/en/products/${product.slug}`,
-        ar: `${siteUrl}/ar/products/${product.slug}`,
+        en: `${SITE_URL}/en/products/${product.slug}`,
+        ar: `${SITE_URL}/ar/products/${product.slug}`,
       },
     },
     openGraph: {
-      title: `${seoTitle || name} | ${isArabic ? company.nameAr : company.nameEn}`,
-      description: seoDesc || description,
-      url: `${siteUrl}/${locale}/products/${product.slug}`,
+      title: metaTitle,
+      description: metaDesc,
+      url: `${SITE_URL}/${locale}/products/${product.slug}`,
+      siteName: isArabic ? company.nameAr : company.nameEn,
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      alternateLocale: locale === "ar" ? ["en_US"] : ["ar_EG"],
+      type: "website",
       images: [
         {
-          url: `${siteUrl}${product.images.cover}`,
+          url: `${SITE_URL}${product.images.cover}`,
           width: 1200,
           height: 800,
           alt: name,
@@ -68,11 +81,10 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${seoTitle || name} | ${isArabic ? company.nameAr : company.nameEn}`,
-      description: seoDesc || description,
-      images: [`${siteUrl}${product.images.cover}`],
+      title: metaTitle,
+      description: metaDesc,
+      images: [`${SITE_URL}${product.images.cover}`],
     },
-    keywords: product.tags?.join(", "),
   }
 }
 
@@ -97,7 +109,11 @@ export default async function ProductPage({
   const description = isArabic
     ? product.shortDescriptionAr
     : product.shortDescriptionEn
-  const crops = product.suitableCrops
+  const crops = isArabic ? product.suitableCrops : (product.suitableCropsEn ?? product.suitableCrops)
+  const benefits = isArabic ? product.benefits : (product.benefitsEn ?? product.benefits)
+  const applicationRate = isArabic ? product.applicationRate : (product.applicationRateEn ?? product.applicationRate)
+  const packaging = isArabic ? product.packaging : (product.packagingEn ?? product.packaging)
+  const category = isArabic && product.categoryAr ? product.categoryAr : product.category
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -105,11 +121,32 @@ export default async function ProductPage({
     name,
     description,
     category: product.category,
-    image: `${siteUrl}${product.images.cover}`,
+    image: `${SITE_URL}${product.images.cover}`,
     brand: {
       "@type": "Organization",
       name: company.nameEn,
     },
+    manufacturer: {
+      "@type": "Organization",
+      name: company.nameEn,
+    },
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      price: "0",
+      priceCurrency: "EGP",
+      url: `${SITE_URL}/${locale}/products/${product.slug}`,
+    },
+  }
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: isArabic ? "الرئيسية" : "Home", item: `${SITE_URL}/${locale}` },
+      { "@type": "ListItem", position: 2, name: isArabic ? "منتجاتنا" : "Products", item: `${SITE_URL}/${locale}/products` },
+      { "@type": "ListItem", position: 3, name, item: `${SITE_URL}/${locale}/products/${product.slug}` },
+    ],
   }
 
   return (
@@ -117,6 +154,10 @@ export default async function ProductPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Link
         href={`/${locale}/products`}
@@ -140,7 +181,7 @@ export default async function ProductPage({
 
         <div className="flex flex-col gap-6">
           <span className="self-start rounded-full bg-primary-light/20 px-3 py-1 text-xs font-medium text-primary">
-            {product.category}
+            {category}
           </span>
 
           <h1 className="text-[1.75rem] font-bold leading-[1.15] tracking-[-0.02em] sm:text-[2.625rem]">
@@ -163,20 +204,20 @@ export default async function ProductPage({
                     className="rounded-xl border border-border/60 bg-surface-alt px-3 py-1 text-sm font-medium text-muted-foreground"
                     role="listitem"
                   >
-                    {item.name} {item.value}
+                    {isArabic && item.nameAr ? item.nameAr : item.name} {item.value}
                   </span>
                 ))}
               </div>
             </div>
           )}
 
-          {product.benefits.length > 0 && (
+          {benefits.length > 0 && (
             <div>
               <h2 className="mb-3 text-sm font-semibold text-foreground">
                 {dict.products.keyBenefits}
               </h2>
               <ul className="space-y-2">
-                {product.benefits.map((benefit, i) => (
+                {benefits.map((benefit, i) => (
                   <li
                     key={i}
                     className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground"
@@ -207,26 +248,26 @@ export default async function ProductPage({
             </div>
           )}
 
-          {product.applicationRate && (
+          {applicationRate && (
             <p className="text-sm text-muted-foreground">
               <span className="font-semibold text-foreground">
                 {dict.products.application}:
               </span>{" "}
-              {product.applicationRate}
+              {applicationRate}
             </p>
           )}
 
-          {product.packaging && (
+          {packaging && (
             <p className="text-sm text-muted-foreground">
               <span className="font-semibold text-foreground">
                 {dict.productDetail.packaging}:
               </span>{" "}
-              {product.packaging}
+              {packaging}
             </p>
           )}
 
           <div className="mt-4 flex flex-wrap gap-4">
-            <QuoteButton product={product} label={dict.products.addToQuote} />
+            <QuoteButton product={product} label={dict.products.addToQuote} toastMessage={dict.quote.added} />
             {product.images.brochure && (
               <Button variant="outline" asChild>
                 <a

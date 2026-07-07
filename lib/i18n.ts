@@ -1,3 +1,5 @@
+export const SITE_URL = "https://goldeneast-agri.com"
+
 export const locales = ["en", "ar"] as const
 
 export type Locale = (typeof locales)[number]

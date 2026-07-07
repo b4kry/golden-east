@@ -8,11 +8,11 @@ function Features({ locale }: { locale?: string }) {
   return (
     <Section>
       <Container className="text-center">
-        <H2>{isArabic ? "لماذا منتجاتنا" : "Why Choose Our Products"}</H2>
+        <H2>{isArabic ? "لماذا منتجات جولدن إيست" : "Why Choose Our Products"}</H2>
         <BodyLg className="mx-auto mt-4 max-w-2xl text-muted-foreground">
           {isArabic
-            ? "حلولنا الزراعية مصممة بالجودة والأداء في الاعتبار."
-            : "Our agricultural solutions are designed with quality and performance in mind."}
+            ? "منتجاتنا الزراعية تجمع بين أحدث التقنيات العلمية وأعلى معايير الجودة لضمان أفضل أداء لمحاصيلك."
+            : "Our agricultural solutions combine cutting-edge science with the highest quality standards for optimal crop performance."}
         </BodyLg>
       </Container>
     </Section>

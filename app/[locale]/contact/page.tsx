@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
-import { Mail, MapPin } from "lucide-react"
+import { MapPin } from "lucide-react"
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
 import { company } from "@/data/company"
-import { locales, isLocale, getDictionary } from "@/lib/i18n"
+import { locales, isLocale, getDictionary, SITE_URL } from "@/lib/i18n"
 import { Container } from "@/components/layout/container"
 
 export function generateStaticParams() {
@@ -18,20 +18,60 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {}
 
   const isArabic = locale === "ar"
+  const name = isArabic ? company.nameAr : company.nameEn
+  const title = `${isArabic ? "تواصل معنا" : "Contact Us"} | ${name}`
+  const description = isArabic
+    ? "تواصل مع فريق جولدن إيست للتنمية الزراعية للاستفسارات وطلبات الأسعار والدعم الفني."
+    : "Get in touch with Golden East Agricultural Development for inquiries and quote requests."
 
   return {
-    title: isArabic ? "اتصل بنا" : "Contact Us",
-    description: isArabic
-      ? "تواصل مع فريق جولدن إيست للتنمية الزراعية للاستفسارات وطلبات الأسعار."
-      : "Get in touch with Golden East Agricultural Development for inquiries and quote requests.",
+    title,
+    description,
+    keywords: [
+      "Contact Golden East",
+      "Agricultural Inquiries",
+      "Fertilizer Quotes Egypt",
+      isArabic ? "اتصل بنا" : "",
+      isArabic ? "جولدن إيست" : "",
+      isArabic ? "تواصل" : "",
+      isArabic ? "استفسارات زراعية" : "",
+    ].filter(Boolean),
+    robots: {
+      index: true,
+      follow: true,
+    },
+    authors: [{ name: company.nameEn }],
+    creator: company.nameEn,
+    publisher: company.nameEn,
     alternates: {
-      canonical: `https://goldeneast-agri.com/${locale}/contact`,
+      canonical: `${SITE_URL}/${locale}/contact`,
+      languages: {
+        en: `${SITE_URL}/en/contact`,
+        ar: `${SITE_URL}/ar/contact`,
+      },
     },
     openGraph: {
-      title: `${isArabic ? "اتصل بنا" : "Contact Us"} | ${isArabic ? company.nameAr : company.nameEn}`,
-      description: isArabic
-        ? "تواصل مع فريقنا للاستفسارات وطلبات الأسعار."
-        : "Contact our team for inquiries and quote requests.",
+      title,
+      description,
+      url: `${SITE_URL}/${locale}/contact`,
+      siteName: isArabic ? company.nameAr : company.nameEn,
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      alternateLocale: locale === "ar" ? ["en_US"] : ["ar_EG"],
+      type: "website",
+      images: [
+        {
+          url: `${SITE_URL}/opengraph-image.png`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`${SITE_URL}/opengraph-image.png`],
     },
   }
 }
@@ -48,30 +88,26 @@ export default async function ContactPage({
   const isArabic = locale === "ar"
   const socialLinks = company.social as Record<string, string>
 
+  const addressDisplay = isArabic
+    ? [company.location.address, company.location.city, company.location.country]
+    : [company.location.addressEn, company.location.cityEn, company.location.countryEn]
+
   const contactCards = [
     {
       label: dict.contact.form.address || (isArabic ? "العنوان" : "Address"),
-      value: `${company.location.address}, ${company.location.city}, ${company.location.country}`,
+      value: addressDisplay.join(", "),
+      lines: addressDisplay,
       icon: MapPin,
     },
-    ...(company.email
-      ? [{
-          label: dict.contact.form.email || (isArabic ? "البريد الإلكتروني" : "Email"),
-          value: company.email,
-          icon: Mail,
-          href: `mailto:${company.email}`,
-        }]
-      : []),
   ]
 
-  const socialCards: Array<{
+  const whatsappLink = socialLinks.whatsapp ? { label: dict.social.whatsapp, href: socialLinks.whatsapp } : null
+
+  const secondarySocial: Array<{
     label: string
     href: string
-    icon: "whatsapp" | "facebook" | "instagram"
+    icon: "facebook" | "instagram"
   }> = [
-    ...(socialLinks.whatsapp
-      ? [{ label: dict.social.whatsapp, href: socialLinks.whatsapp, icon: "whatsapp" as const }]
-      : []),
     ...(socialLinks.facebook
       ? [{ label: dict.social.facebook, href: socialLinks.facebook, icon: "facebook" as const }]
       : []),
@@ -86,8 +122,60 @@ export default async function ContactPage({
     instagram: FaInstagram,
   }
 
+  const introText = isArabic
+    ? "نرحب بتواصلك معنا! اختر القناة المناسبة لك وسيقوم فريقنا بالرد في أقرب وقت."
+    : "We'd love to hear from you. Choose your preferred channel and our team will respond promptly."
+
+  const whatsappDescription = isArabic
+    ? "للحصول على رد سريع، يمكنك التواصل معنا مباشرة عبر واتساب. فريقنا جاهز للرد على استفساراتك."
+    : "For a quick response, reach out to us directly on WhatsApp. Our team is ready to help."
+
+  const contactPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: isArabic ? "تواصل معنا" : "Contact Us",
+    description: isArabic
+      ? "تواصل مع جولدن إيست للتنمية الزراعية للاستفسارات وطلبات الأسعار."
+      : "Contact Golden East Agricultural Development for inquiries and quote requests.",
+    url: `${SITE_URL}/${locale}/contact`,
+    mainEntity: {
+      "@type": "Organization",
+      name: isArabic ? company.nameAr : company.nameEn,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: isArabic ? company.location.address : company.location.addressEn,
+        addressLocality: isArabic ? company.location.city : company.location.cityEn,
+        addressCountry: isArabic ? company.location.country : company.location.countryEn,
+      },
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          availableLanguage: ["English", "Arabic"],
+        },
+      ],
+    },
+  }
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: isArabic ? "الرئيسية" : "Home", item: `${SITE_URL}/${locale}` },
+      { "@type": "ListItem", position: 2, name: isArabic ? "تواصل معنا" : "Contact Us", item: `${SITE_URL}/${locale}/contact` },
+    ],
+  }
+
   return (
     <Container className="py-16 sm:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="text-3xl font-bold leading-tight tracking-[-0.02em] sm:text-[2.625rem]">
           {dict.contact.title}
@@ -97,37 +185,65 @@ export default async function ContactPage({
         </p>
       </div>
 
-      <div className="mx-auto mt-16 grid max-w-5xl gap-10 lg:grid-cols-2">
+      <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-muted-foreground">
+        {introText}
+      </p>
+
+      <div className="mx-auto mt-12 grid max-w-5xl gap-10 lg:grid-cols-2">
         <div className="space-y-6">
+          {whatsappLink && (
+            <a
+              href={whatsappLink.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-4 rounded-2xl border border-primary/20 bg-primary/5 p-6 shadow-card transition-all duration-200 hover:border-primary/40 hover:shadow-card-hover"
+            >
+              <div className="flex size-14 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                <FaWhatsapp className="size-6" />
+              </div>
+              <div>
+                <h2 className="text-base font-semibold text-foreground">
+                  {whatsappLink.label}
+                </h2>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  {whatsappDescription}
+                </p>
+              </div>
+            </a>
+          )}
+
           {contactCards.map((card) => (
-            <div key={card.label} className="rounded-2xl border border-border/50 bg-card p-6 shadow-card transition-shadow duration-200 hover:shadow-card-hover">
+            <div key={card.label} className="rounded-2xl border border-border/50 bg-card p-6 shadow-card">
               <div className="flex items-start gap-4">
                 <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary-light/20 text-primary">
                   <card.icon className="size-5" aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-sm font-semibold text-foreground">{card.label}</h2>
-                  {"href" in card && card.href ? (
-                    <a href={card.href} className="mt-1 block text-sm leading-relaxed text-muted-foreground transition-colors hover:text-primary">
-                      {card.value}
-                    </a>
-                  ) : (
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      {card.value}
-                    </p>
-                  )}
+                  <div className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {"lines" in card && card.lines ? (
+                      (card as typeof card & { lines: string[] }).lines.map((line, i) => (
+                        <span key={i}>
+                          {line}
+                          {i < (card as typeof card & { lines: string[] }).lines.length - 1 && <br />}
+                        </span>
+                      ))
+                    ) : (
+                      <p>{card.value}</p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           ))}
 
-          {socialCards.length > 0 && (
+          {secondarySocial.length > 0 && (
             <div>
               <p className="mb-4 text-sm font-medium text-muted-foreground">
-                {dict.social.followUs}
+                {isArabic ? "أو تابعنا على" : "Or follow us on"}
               </p>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                {socialCards.map((card) => {
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {secondarySocial.map((card) => {
                   const Icon = socialIconMap[card.icon]
                   return (
                     <a

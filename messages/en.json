@@ -22,7 +22,7 @@
     "description": "Discover what sets our agricultural enterprise apart — from field to market."
   },
   "cta": {
-    "title": "Let&apos;s Work Together",
+    "title": "Let's Work Together",
     "description": "Contact us to discuss how we can support your agricultural needs.",
     "button": "Get in Touch"
   },
@@ -73,6 +73,7 @@
     }
   },
   "quote": {
+    "added": "Added to Quote",
     "title": "Quote Request",
     "empty": "Your quote is empty.",
     "browseProducts": "Browse Products",
@@ -94,7 +95,7 @@
   },
   "footer": {
     "navigation": "Navigation",
-    "contact": "Contact",
+    "address": "Address",
     "followUs": "Follow Us",
     "copyright": "All rights reserved."
   },
@@ -114,6 +115,18 @@
     "title": "Something went wrong",
     "description": "An unexpected error occurred.",
     "tryAgain": "Try Again"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "How Golden East Agricultural Development collects, uses, and protects your personal information."
+  },
+  "terms": {
+    "title": "Terms of Use",
+    "description": "Terms and conditions for using the Golden East Agricultural Development website."
+  },
+  "legal": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
   },
   "locale": {
     "switchTo": "العربية"

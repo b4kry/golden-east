@@ -35,11 +35,11 @@ export const company = {
   nameAr: "جولدن إيست للتنمية الزراعية",
   nameEn: "Golden East Agricultural Development",
 
-  taglineAr: "حيث يلتقي العلم بالنمو",
+  taglineAr: "حلول علمية لنمو أفضل",
   taglineEn: "Where Science Meets Growth",
 
   descriptionAr:
-    "جولدن إيست للتنمية الزراعية شركة مصرية متخصصة في حلول تغذية النبات والأسمدة الزراعية المتطورة. نجمع بين الخبرة العملية والبحث العلمي لتقديم منتجات وبرامج تغذية متكاملة تساعد المزارعين على رفع الإنتاجية وتحسين جودة المحاصيل وتعظيم العائد الاقتصادي، مع الالتزام بأعلى المعايير العلمية وبناء شراكات مستدامة مع جميع العاملين في القطاع الزراعي.",
+    "جولدن إيست للتنمية الزراعية شركة مصرية رائدة في مجال حلول تغذية النبات والأسمدة الزراعية المتخصصة. تجمع خبراتنا بين التطبيق العملي والبحث العلمي لتقديم منتجات وبرامج تغذية متكاملة، تساعد المزارعين على رفع الإنتاجية وتحسين جودة المحاصيل وتعظيم العائد الاقتصادي، مع الالتزام بأعلى المعايير وبناء شراكات مستدامة تدعم نمو القطاع الزراعي في مصر.",
 
   descriptionEn:
     "Golden East Agricultural Development is an Egyptian company specialized in plant nutrition solutions and agricultural fertilizers. Through high-quality products and science-driven crop nutrition programs, the company helps growers improve productivity, crop quality, and profitability while building long-term partnerships across the agricultural sector.",

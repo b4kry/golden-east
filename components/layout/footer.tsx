@@ -1,10 +1,9 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, MapPin, Phone } from "lucide-react"
+import { MapPin } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
-import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
-import { Separator } from "@/components/ui/separator"
+import { FaFacebook, FaInstagram } from "react-icons/fa"
 import { Small } from "@/components/ui/typography"
 import { company } from "@/data/company"
 import { navigation } from "@/data/navigation"
@@ -12,7 +11,6 @@ import type { Dictionary } from "@/lib/i18n"
 
 function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
   const currentYear = new Date().getFullYear()
-  const socialLinks = company.social as Record<string, string>
   const isArabic = locale === "ar"
 
   const navItems = navigation.map((item) => ({
@@ -21,28 +19,27 @@ function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
   }))
 
   return (
-    <footer className="border-t border-border/40" role="contentinfo" aria-label={dict.footer.navigation}>
+    <footer className="border-t border-border/10 bg-[#1A2E1A] text-white/80" role="contentinfo" aria-label={dict.footer.navigation}>
       <Container className="py-16">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-4">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="space-y-5">
             <Link href={`/${locale}`} className="inline-block">
               <Image
-                src="/brand/logo.svg"
+                src="/brand/icon-white.svg"
                 alt={isArabic ? company.nameAr : company.nameEn}
-                width={160}
+                width={50}
                 height={40}
-                className="h-10 w-auto"
                 unoptimized
               />
             </Link>
-            <Small className="text-muted-foreground leading-relaxed">
+            <Small className="leading-relaxed text-white/60">
               {isArabic ? company.descriptionAr : company.descriptionEn}
             </Small>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-foreground">{dict.footer.navigation}</h3>
-            <nav className="flex flex-col gap-2.5" aria-label={dict.footer.navigation}>
+          <div className="space-y-5">
+            <h3 className="text-sm font-semibold text-white/90">{dict.footer.navigation}</h3>
+            <nav className="flex flex-col gap-3" aria-label={dict.footer.navigation}>
               {navItems.map((item) => {
                 const href =
                   item.href === "/"
@@ -52,7 +49,7 @@ function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
                   <Link
                     key={item.href}
                     href={href}
-                    className="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                    className="text-sm text-white/60 transition-colors duration-200 hover:text-white/90"
                   >
                     {item.label}
                   </Link>
@@ -61,87 +58,53 @@ function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
             </nav>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-foreground">{dict.footer.contact}</h3>
-            <address className="space-y-3 text-sm not-italic text-muted-foreground">
-              <div className="flex items-start gap-2">
-                <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <div className="space-y-5">
+            <h3 className="text-sm font-semibold text-white/90">{dict.footer.address}</h3>
+            <address className="space-y-3 text-sm not-italic text-white/60">
+              <div className="flex items-start gap-3">
+                <MapPin className="mt-0.5 size-4 shrink-0 text-white/40" aria-hidden="true" />
                 <span>
-                  {company.location.address}
+                  {isArabic ? company.location.address : company.location.addressEn}
                   <br />
-                  {company.location.city}, {company.location.country}
+                  {isArabic ? company.location.city : company.location.cityEn}
+                  <br />
+                  {isArabic ? company.location.country : company.location.countryEn}
                 </span>
               </div>
-              {company.phones[0] && (
-                <div className="flex items-center gap-2">
-                  <Phone className="size-4 shrink-0" aria-hidden="true" />
-                  <a
-                    href={`tel:${company.phones[0]}`}
-                    className="transition-colors duration-200 hover:text-foreground"
-                  >
-                    {company.phones[0]}
-                  </a>
-                </div>
-              )}
-              {company.email && (
-                <div className="flex items-center gap-2">
-                  <Mail className="size-4 shrink-0" aria-hidden="true" />
-                  <a
-                    href={`mailto:${company.email}`}
-                    className="transition-colors duration-200 hover:text-foreground"
-                  >
-                    {company.email}
-                  </a>
-                </div>
-              )}
             </address>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-foreground">{dict.footer.followUs}</h3>
-            <div className="flex flex-col gap-3">
-              {socialLinks.whatsapp && (
-                <a
-                  href={socialLinks.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-primary"
-                >
-                  <FaWhatsapp className="size-4" aria-hidden={true} />
-                  {dict.social.whatsapp}
-                </a>
-              )}
-              {socialLinks.facebook && (
-                <a
-                  href={socialLinks.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-primary"
-                >
-                  <FaFacebook className="size-4" aria-hidden={true} />
-                  {dict.social.facebook}
-                </a>
-              )}
-              {socialLinks.instagram && (
-                <a
-                  href={socialLinks.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-primary"
-                >
-                  <FaInstagram className="size-4" aria-hidden={true} />
-                  {dict.social.instagram}
-                </a>
-              )}
+          <div className="space-y-5">
+            <h3 className="text-sm font-semibold text-white/90">{dict.footer.followUs}</h3>
+            <div className="flex flex-row flex-wrap items-center justify-center gap-x-4 gap-y-2 md:flex-col md:items-start md:justify-start md:gap-3">
+              {[["facebook", FaFacebook, dict.social.facebook] as const, ["instagram", FaInstagram, dict.social.instagram] as const]
+                .filter(([key]) => company.social[key as keyof typeof company.social])
+                .map(([key, Icon, label]) => (
+                  <a
+                    key={key}
+                    href={company.social[key as keyof typeof company.social] as string}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 text-sm text-white/60 transition-colors duration-200 hover:text-white/90"
+                  >
+                    <Icon className="size-4" aria-hidden={true} />
+                    {label}
+                  </a>
+                ))}
             </div>
           </div>
         </div>
 
-        <Separator className="my-10" />
-
-        <Small className="block text-center text-muted-foreground">
-          &copy; {currentYear} {isArabic ? company.nameAr : company.nameEn}. {dict.footer.copyright}
-        </Small>
+        <div className="mt-12 border-t border-white/10 pt-8">
+          <Small className="block text-center text-white/40">
+            &copy; {currentYear} {isArabic ? company.nameAr : company.nameEn}. {dict.footer.copyright}
+          </Small>
+          <nav className="mt-3 flex items-center justify-center gap-4 text-sm text-white/40" aria-label={isArabic ? "روابط قانونية" : "Legal links"}>
+            <Link href={`/${locale}/privacy`} className="transition-colors hover:text-white/70">{dict.legal.privacy}</Link>
+            <span aria-hidden="true">·</span>
+            <Link href={`/${locale}/terms`} className="transition-colors hover:text-white/70">{dict.legal.terms}</Link>
+          </nav>
+        </div>
       </Container>
     </footer>
   )
