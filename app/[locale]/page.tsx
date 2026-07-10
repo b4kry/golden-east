@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { Hero } from "@/components/sections/hero"
 import { About } from "@/components/sections/about"
 import { WhyChooseUs } from "@/components/sections/why-choose-us"
-import { Products } from "@/components/sections/products"
 import { Cta } from "@/components/sections/cta"
 import { locales, isLocale, SITE_URL } from "@/lib/i18n"
 import { company } from "@/data/company"
@@ -65,7 +64,7 @@ export async function generateMetadata({
         {
           url: `${SITE_URL}/opengraph-image.png`,
           width: 1200,
-          height: 630,
+          height: 640,
           alt: title,
         },
       ],
@@ -91,7 +90,6 @@ export default async function Home({
       <Hero locale={locale} />
       <About locale={locale} compact />
       <WhyChooseUs locale={locale} />
-      <Products locale={locale} />
       <Cta locale={locale} />
     </>
   )

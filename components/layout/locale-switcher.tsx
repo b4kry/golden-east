@@ -10,11 +10,8 @@ const LOCALE_COOKIE = "NEXT_LOCALE"
 const COOKIE_MAX_AGE = 31536000
 
 function setLocaleCookie(locale: string): void {
-  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=${COOKIE_MAX_AGE}; sameSite=lax`
-}
-
-function switchLocale(target: string) {
-  setLocaleCookie(target)
+  const secure = window.location.protocol === "https:" ? "; Secure" : ""
+  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=${COOKIE_MAX_AGE}; sameSite=lax${secure}`
 }
 
 export function LocaleSwitcher({ compact }: { compact?: boolean }) {
@@ -33,7 +30,7 @@ export function LocaleSwitcher({ compact }: { compact?: boolean }) {
     return (
       <a
         href={switchHref}
-        onClick={() => switchLocale(otherLocale)}
+        onClick={() => setLocaleCookie(otherLocale)}
         rel="alternate"
         hrefLang={otherLocale}
         aria-label={currentLocale === "en" ? "التبديل إلى العربية" : "Switch to Arabic"}
@@ -53,7 +50,7 @@ export function LocaleSwitcher({ compact }: { compact?: boolean }) {
       asChild
       aria-label={currentLocale === "en" ? "التبديل إلى العربية" : "Switch to Arabic"}
     >
-      <a href={switchHref} onClick={() => switchLocale(otherLocale)} rel="alternate" hrefLang={otherLocale}>
+      <a href={switchHref} onClick={() => setLocaleCookie(otherLocale)} rel="alternate" hrefLang={otherLocale}>
         {label}
       </a>
     </Button>

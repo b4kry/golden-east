@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: company.nameEn,
     short_name: "Golden East",
     description: company.descriptionEn,
-    start_url: "/en",
+    start_url: "/ar",
     display: "standalone",
     background_color: "#ffffff",
     theme_color: "#15803d",

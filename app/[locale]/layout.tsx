@@ -10,6 +10,7 @@ import { Footer } from "@/components/layout/footer"
 import { WhatsAppButton } from "@/components/shared/whatsapp-button"
 import { ToastProvider } from "@/components/ui/toast"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -216,6 +217,7 @@ export default async function RootLayout({
               <Footer dict={dict} locale={locale} />
               <WhatsAppButton />
               <Analytics />
+              <SpeedInsights />
             </ToastProvider>
           </QuoteProvider>
         </LocaleProvider>

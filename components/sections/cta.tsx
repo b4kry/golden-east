@@ -8,6 +8,7 @@ async function Cta({ locale }: { locale?: string }) {
   const resolvedLocale =
     locale && isLocale(locale) ? locale : defaultLocale
   const dict = await getDictionary(resolvedLocale)
+  const isArabic = resolvedLocale === "ar"
 
   return (
     <Section className="bg-surface-alt">
@@ -18,11 +19,18 @@ async function Cta({ locale }: { locale?: string }) {
         <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           {dict.cta.description}
         </p>
-        <Button size="lg" className="mt-8 min-w-[180px]" asChild>
-          <Link href={`/${resolvedLocale}/contact`}>
-            {dict.cta.button}
-          </Link>
-        </Button>
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Button size="lg" className="min-w-[180px]" asChild>
+            <Link href={`/${resolvedLocale}/products`}>
+              {isArabic ? "تصفح المنتجات" : dict.home.exploreProducts}
+            </Link>
+          </Button>
+          <Button size="lg" variant="outline" className="min-w-[180px]" asChild>
+            <Link href={`/${resolvedLocale}/quote`}>
+              {dict.quote.title}
+            </Link>
+          </Button>
+        </div>
       </Container>
     </Section>
   )
