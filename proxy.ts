@@ -15,16 +15,6 @@ function getLocale(request: NextRequest): string {
   if (cookieLocale && isLocale(cookieLocale)) {
     return cookieLocale
   }
-
-  const acceptLanguage = request.headers.get("accept-language") || ""
-  const preferred = acceptLanguage
-    .split(",")
-    .map((l) => l.split(";")[0].trim().split("-")[0])
-
-  for (const locale of preferred) {
-    if (isLocale(locale)) return locale
-  }
-
   return defaultLocale
 }
 
@@ -37,10 +27,7 @@ export function proxy(request: NextRequest) {
   )
 
   if (pathnameHasLocale) {
-    const url = request.nextUrl.clone()
-    const response = NextResponse.rewrite(url)
-    response.cookies.set("NEXT_LOCALE", pathname.split("/")[1], COOKIE_OPTIONS)
-    return response
+    return NextResponse.rewrite(request.nextUrl)
   }
 
   const locale = getLocale(request)
