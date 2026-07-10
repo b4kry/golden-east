@@ -1,8 +1,7 @@
 import Link from "next/link"
 import { Section, SectionHeader } from "@/components/layout/section"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Grid } from "@/components/layout/grid"
+import { CompanyStats } from "./company-stats"
 import { company, about } from "@/data/company"
 import { getDictionary, isLocale, defaultLocale } from "@/lib/i18n"
 
@@ -26,20 +25,7 @@ async function About({ locale, compact }: { locale?: string; compact?: boolean }
         {description}
       </p>
 
-      {about.stats.length > 0 && (
-        <Grid cols={3} gap={6} className="mt-16">
-          {about.stats.map((stat) => (
-            <Card key={stat.labelEn} className="p-6 text-center shadow-card transition-shadow duration-200 hover:shadow-card-hover sm:p-8">
-              <p className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
-                {isArabic && stat.valueAr ? stat.valueAr : stat.valueEn}
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {isArabic && stat.labelAr ? stat.labelAr : stat.labelEn}
-              </p>
-            </Card>
-          ))}
-        </Grid>
-      )}
+      <CompanyStats isArabic={isArabic} />
 
       {compact ? (
         <div className="mt-10 flex justify-center">
@@ -71,21 +57,6 @@ async function About({ locale, compact }: { locale?: string; compact?: boolean }
                 {isArabic && about.visionAr ? about.visionAr : about.visionEn}
               </p>
             </div>
-          )}
-
-          {about.stats.length > 0 && (
-            <Grid cols={3} gap={6} className="mt-16">
-              {about.stats.map((stat) => (
-                <Card key={stat.labelEn} className="p-6 text-center shadow-card transition-shadow duration-200 hover:shadow-card-hover sm:p-8">
-                  <p className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
-                    {isArabic && stat.valueAr ? stat.valueAr : stat.valueEn}
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {isArabic && stat.labelAr ? stat.labelAr : stat.labelEn}
-                  </p>
-                </Card>
-              ))}
-            </Grid>
           )}
         </>
       )}

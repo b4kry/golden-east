@@ -37,7 +37,8 @@ export function proxy(request: NextRequest) {
   )
 
   if (pathnameHasLocale) {
-    const response = NextResponse.next()
+    const url = request.nextUrl.clone()
+    const response = NextResponse.rewrite(url)
     response.cookies.set("NEXT_LOCALE", pathname.split("/")[1], COOKIE_OPTIONS)
     return response
   }
