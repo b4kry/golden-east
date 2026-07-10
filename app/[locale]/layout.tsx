@@ -9,6 +9,7 @@ import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { WhatsAppButton } from "@/components/shared/whatsapp-button"
 import { ToastProvider } from "@/components/ui/toast"
+import { Analytics } from "@vercel/analytics/next"
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -147,6 +148,11 @@ export default async function RootLayout({
       addressLocality: company.location.city,
       addressCountry: company.location.country,
     },
+    contactPoint: [
+      { "@type": "ContactPoint", contactType: "customer support", telephone: "", email: "support@golden-east.com", availableLanguage: ["English", "Arabic"] },
+      { "@type": "ContactPoint", contactType: "sales", email: "sales@golden-east.com", availableLanguage: ["English", "Arabic"] },
+      { "@type": "ContactPoint", contactType: "general contact", email: "info@golden-east.com", availableLanguage: ["English", "Arabic"] },
+    ],
     knowsLanguage: ["en", "ar"],
     keywords: "agricultural fertilizers, plant nutrition, Egypt agriculture",
   }
@@ -209,6 +215,7 @@ export default async function RootLayout({
               </main>
               <Footer dict={dict} locale={locale} />
               <WhatsAppButton />
+              <Analytics />
             </ToastProvider>
           </QuoteProvider>
         </LocaleProvider>

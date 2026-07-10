@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Mail } from "lucide-react"
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
 import { getDictionary, locales, isLocale, SITE_URL } from "@/lib/i18n"
 import { company } from "@/data/company"
@@ -159,6 +160,32 @@ export default async function QuotePage({
             </div>
           </div>
         )}
+
+        <div className="mx-auto mt-12 max-w-lg rounded-2xl border border-border/50 bg-card px-6 py-5 shadow-card">
+          <p className="mb-4 text-center text-sm font-medium text-muted-foreground">
+            {dict.quote.needAssistance}
+          </p>
+          <div className="space-y-3">
+            <a
+              href="mailto:sales@golden-east.com"
+              className="flex items-center justify-center gap-2 text-sm text-foreground transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 rounded-sm"
+              aria-label={`${dict.quote.sales}: sales@golden-east.com`}
+            >
+              <Mail className="size-4 shrink-0" aria-hidden="true" />
+              <span className="underline-offset-2 hover:underline">{dict.quote.sales}</span>
+              <span className="text-muted-foreground">sales@golden-east.com</span>
+            </a>
+            <a
+              href="mailto:info@golden-east.com"
+              className="flex items-center justify-center gap-2 text-sm text-foreground transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 rounded-sm"
+              aria-label={`${dict.quote.generalQuestions}: info@golden-east.com`}
+            >
+              <Mail className="size-4 shrink-0" aria-hidden="true" />
+              <span className="underline-offset-2 hover:underline">{dict.quote.generalQuestions}</span>
+              <span className="text-muted-foreground">info@golden-east.com</span>
+            </a>
+          </div>
+        </div>
       </div>
     </Container>
   )

@@ -1,9 +1,10 @@
 import { Section, SectionHeader } from "@/components/layout/section"
 import { ProductsCarousel } from "./products-carousel"
 import { products } from "@/data/products"
+import { sortProducts } from "@/lib/sort"
 import { getDictionary, isLocale, defaultLocale } from "@/lib/i18n"
 
-const featured = products.filter((p) => p.featured && p.status === "active")
+const featured = sortProducts(products).filter((p) => p.featured && p.status === "active")
 
 async function Products({ locale }: { locale?: string }) {
   const resolvedLocale =

@@ -4,8 +4,20 @@ import { useLocale } from "@/contexts/locale-context"
 import { usePathname } from "next/navigation"
 import { locales } from "@/lib/i18n"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
-export function LocaleSwitcher() {
+const LOCALE_COOKIE = "NEXT_LOCALE"
+const COOKIE_MAX_AGE = 31536000
+
+function setLocaleCookie(locale: string): void {
+  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=${COOKIE_MAX_AGE}; sameSite=lax`
+}
+
+function switchLocale(target: string) {
+  setLocaleCookie(target)
+}
+
+export function LocaleSwitcher({ compact }: { compact?: boolean }) {
   const currentLocale = useLocale()
   const pathname = usePathname()
 
@@ -13,7 +25,26 @@ export function LocaleSwitcher() {
   if (!otherLocale) return null
 
   const switchHref = `/${otherLocale}${pathname.replace(/^\/[a-z]{2}/, "")}`
+
   const label = currentLocale === "en" ? "العربية" : "English"
+  const compactLabel = currentLocale === "en" ? "ع" : "EN"
+
+  if (compact) {
+    return (
+      <a
+        href={switchHref}
+        onClick={() => switchLocale(otherLocale)}
+        rel="alternate"
+        hrefLang={otherLocale}
+        aria-label={currentLocale === "en" ? "التبديل إلى العربية" : "Switch to Arabic"}
+        className={cn(
+          "inline-flex size-8 items-center justify-center rounded-lg border border-border/60 text-xs font-semibold text-foreground transition-colors hover:border-primary/30 hover:text-primary",
+        )}
+      >
+        {compactLabel}
+      </a>
+    )
+  }
 
   return (
     <Button
@@ -22,7 +53,7 @@ export function LocaleSwitcher() {
       asChild
       aria-label={currentLocale === "en" ? "التبديل إلى العربية" : "Switch to Arabic"}
     >
-      <a href={switchHref} rel="alternate" hrefLang={otherLocale}>
+      <a href={switchHref} onClick={() => switchLocale(otherLocale)} rel="alternate" hrefLang={otherLocale}>
         {label}
       </a>
     </Button>

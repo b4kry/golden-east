@@ -1,10 +1,10 @@
-export const SITE_URL = "https://goldeneast-agri.com"
+export const SITE_URL = "https://golden-east.com"
 
 export const locales = ["en", "ar"] as const
 
 export type Locale = (typeof locales)[number]
 
-export const defaultLocale: Locale = "en"
+export const defaultLocale: Locale = "ar"
 
 export function isLocale(value: string): value is Locale {
   return locales.includes(value as Locale)

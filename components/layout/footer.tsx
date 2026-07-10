@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { MapPin } from "lucide-react"
+import { MapPin, Mail } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
 import { FaFacebook, FaInstagram } from "react-icons/fa"
@@ -39,7 +39,7 @@ function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
 
           <div className="space-y-5">
             <h3 className="text-sm font-semibold text-white/90">{dict.footer.navigation}</h3>
-            <nav className="flex flex-col gap-3" aria-label={dict.footer.navigation}>
+            <nav className="flex flex-row flex-wrap gap-x-4 gap-y-2 md:flex-col md:gap-3" aria-label={dict.footer.navigation}>
               {navItems.map((item) => {
                 const href =
                   item.href === "/"
@@ -72,11 +72,41 @@ function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
                 </span>
               </div>
             </address>
+
+            <div className="mt-6 space-y-4 pt-2">
+              <h4 className="text-xs font-semibold tracking-wider text-white/50 uppercase">{dict.footer.email}</h4>
+              <div className="space-y-3">
+                <a
+                  href="mailto:info@golden-east.com"
+                  className="flex items-center gap-3 text-sm text-white/60 transition-colors duration-200 hover:text-primary-light focus:outline-none focus:ring-2 focus:ring-primary-light/50 focus:ring-offset-2 focus:ring-offset-[#1A2E1A] rounded-sm"
+                  aria-label={`${dict.footer.email}: info@golden-east.com`}
+                >
+                  <Mail className="size-4 shrink-0 text-white/40" aria-hidden="true" />
+                  <span className="underline-offset-2 hover:underline">info@golden-east.com</span>
+                </a>
+                <a
+                  href="mailto:sales@golden-east.com"
+                  className="flex items-center gap-3 text-sm text-white/60 transition-colors duration-200 hover:text-primary-light focus:outline-none focus:ring-2 focus:ring-primary-light/50 focus:ring-offset-2 focus:ring-offset-[#1A2E1A] rounded-sm"
+                  aria-label={`${dict.footer.sales}: sales@golden-east.com`}
+                >
+                  <Mail className="size-4 shrink-0 text-white/40" aria-hidden="true" />
+                  <span className="underline-offset-2 hover:underline">sales@golden-east.com</span>
+                </a>
+                <a
+                  href="mailto:support@golden-east.com"
+                  className="flex items-center gap-3 text-sm text-white/60 transition-colors duration-200 hover:text-primary-light focus:outline-none focus:ring-2 focus:ring-primary-light/50 focus:ring-offset-2 focus:ring-offset-[#1A2E1A] rounded-sm"
+                  aria-label={`${dict.footer.support}: support@golden-east.com`}
+                >
+                  <Mail className="size-4 shrink-0 text-white/40" aria-hidden="true" />
+                  <span className="underline-offset-2 hover:underline">support@golden-east.com</span>
+                </a>
+              </div>
+            </div>
           </div>
 
           <div className="space-y-5">
             <h3 className="text-sm font-semibold text-white/90">{dict.footer.followUs}</h3>
-            <div className="flex flex-row flex-wrap items-center justify-center gap-x-4 gap-y-2 md:flex-col md:items-start md:justify-start md:gap-3">
+            <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-2 md:flex-col md:items-start md:gap-3">
               {[["facebook", FaFacebook, dict.social.facebook] as const, ["instagram", FaInstagram, dict.social.instagram] as const]
                 .filter(([key]) => company.social[key as keyof typeof company.social])
                 .map(([key, Icon, label]) => (

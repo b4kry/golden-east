@@ -6,7 +6,6 @@ import Image from "next/image"
 import { FlaskConical } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { QuoteButton } from "@/components/quote/quote-button"
 import { type Product } from "@/data/products"
 import { useLocale } from "@/contexts/locale-context"
@@ -96,7 +95,9 @@ function ProductCard({ product, dict }: { product: Product; dict: Dictionary }) 
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border/50 bg-card shadow-card transition-all duration-200 ease-out hover:border-border/80 hover:shadow-card-hover">
       <CardVisual product={product} isArabic={isArabic} />
       <div className="flex flex-1 flex-col gap-4 p-6">
-        <Badge variant="default" className="self-start">{category}</Badge>
+        <span className="inline-flex items-center self-start rounded-full border border-[#C7DDB7] bg-[#EEF5E8] px-3 py-1 text-xs font-medium tracking-[0.01em] text-[#214D21]">
+          {category}
+        </span>
         <h3 className="text-lg font-semibold leading-snug text-foreground">
           <Link href={`/${locale}/products/${product.slug}`} className="hover:text-primary transition-colors duration-200">
             {isArabic ? product.nameAr : product.nameEn}
@@ -105,6 +106,12 @@ function ProductCard({ product, dict }: { product: Product; dict: Dictionary }) 
         <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
           {isArabic ? product.shortDescriptionAr : product.shortDescriptionEn}
         </p>
+
+        {!product.registered && (
+          <span className="inline-flex items-center self-start rounded-full border border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700">
+            {dict.productDetail.registrationPending}
+          </span>
+        )}
 
         {product.composition.length > 0 && (
           <div>
@@ -115,7 +122,7 @@ function ProductCard({ product, dict }: { product: Product; dict: Dictionary }) 
               {product.composition.map((item) => (
                 <span
                   key={item.name}
-                  className="rounded-md border border-border/60 bg-surface-alt px-2 py-0.5 text-xs font-medium text-muted-foreground"
+                  className="rounded-full border border-[#C7DDB7] bg-[#EEF5E8] px-3 py-1 text-xs font-medium tracking-[0.01em] text-[#214D21] transition-colors hover:bg-[#E2EFD4]"
                 >
                   {isArabic && item.nameAr ? item.nameAr : item.name} {item.value}
                 </span>

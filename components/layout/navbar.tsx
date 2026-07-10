@@ -121,10 +121,12 @@ function Navbar({ dict }: { dict: Dictionary }) {
             </Button>
           </div>
 
-          <Sheet>
-            <SheetTrigger className="md:hidden inline-flex size-8 items-center justify-center rounded-lg border border-transparent text-foreground hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg]:pointer-events-none [&_svg]:shrink-0" aria-label={dict.nav.openMenu}>
-              <MenuIcon className="size-5" />
-            </SheetTrigger>
+          <div className="flex items-center gap-2 md:hidden">
+            <LocaleSwitcher compact />
+            <Sheet>
+              <SheetTrigger className="inline-flex size-8 items-center justify-center rounded-lg border border-transparent text-foreground hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg]:pointer-events-none [&_svg]:shrink-0" aria-label={dict.nav.openMenu}>
+                <MenuIcon className="size-5" />
+              </SheetTrigger>
             <SheetContent side={locale === "ar" ? "left" : "right"} className="w-full sm:max-w-sm">
               <nav className="mt-8 flex flex-col gap-2" aria-label={dict.nav.mobileNav}>
                 {navItems.map((item) => {
@@ -214,7 +216,8 @@ function Navbar({ dict }: { dict: Dictionary }) {
                 </SheetClose>
               </nav>
             </SheetContent>
-          </Sheet>
+            </Sheet>
+          </div>
         </div>
       </Container>
     </header>

@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Section, SectionHeader } from "@/components/layout/section"
 import { ProductCard } from "@/components/shared/product-card"
 import { products } from "@/data/products"
+import { sortProducts } from "@/lib/sort"
 import { locales, isLocale, getDictionary, SITE_URL } from "@/lib/i18n"
 import { company } from "@/data/company"
 
@@ -87,7 +88,7 @@ export default async function ProductsPage({
   if (!isLocale(locale)) return null
 
   const dict = await getDictionary(locale)
-  const activeProducts = products.filter((p) => p.status === "active")
+  const activeProducts = sortProducts(products).filter((p) => p.status === "active")
   const isArabic = locale === "ar"
 
   const breadcrumbJsonLd = {

@@ -1,52 +1,53 @@
 import { NextResponse } from "next/server"
+import { contactSchema } from "@/lib/validation"
+import { sendContactEmail } from "@/lib/email/contact"
+import { sendAutoReply } from "@/lib/email/autoreply"
+import { isAllowedOrigin } from "@/lib/security/origin"
 
 export async function POST(request: Request) {
   try {
+    if (!isAllowedOrigin(request)) {
+      return NextResponse.json({ success: false, error: "Invalid request origin" }, { status: 403 })
+    }
+
     const contentType = request.headers.get("content-type") || ""
-    let name: string
-    let email: string
-    let phone: string
-    let company: string
-    let message: string
+
+    let raw: Record<string, unknown>
 
     if (contentType.includes("application/json")) {
-      const body = await request.json()
-      name = body.name
-      email = body.email
-      phone = body.phone || ""
-      company = body.company || ""
-      message = body.message
-    } else {
+      raw = await request.json()
+    } else if (contentType.includes("application/x-www-form-urlencoded") || contentType.includes("multipart/form-data")) {
       const formData = await request.formData()
-      name = (formData.get("name") as string) || ""
-      email = (formData.get("email") as string) || ""
-      phone = (formData.get("phone") as string) || ""
-      company = (formData.get("company") as string) || ""
-      message = (formData.get("message") as string) || ""
+      raw = Object.fromEntries(formData.entries())
+    } else {
+      return NextResponse.json({ error: "Unsupported content type" }, { status: 415 })
     }
 
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: "Name, email, and message are required" },
-        { status: 400 },
-      )
+    const result = contactSchema.safeParse(raw)
+
+    if (!result.success) {
+      const firstError = result.error.issues[0]?.message || "Validation failed"
+      return NextResponse.json({ error: firstError }, { status: 422 })
     }
 
-    if (process.env.NODE_ENV === "development") {
-      console.log(
-        "Contact form submission:",
-        JSON.stringify({ name, email, phone, company, message }, null, 2),
-      )
-    }
+    const input = result.data
+
+    await sendContactEmail(input)
+
+    await sendAutoReply({
+      name: input.name,
+      email: input.email,
+      locale: input.locale,
+      type: "contact",
+    })
 
     return NextResponse.json({
       success: true,
       message: "Message received successfully",
     })
-  } catch {
-    return NextResponse.json(
-      { error: "Invalid request body" },
-      { status: 400 },
-    )
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "An unexpected error occurred"
+    console.error("Contact API error:", message)
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

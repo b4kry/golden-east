@@ -6,7 +6,7 @@
 **Type:** Egyptian agricultural input supplier
 **Founded:** 2016
 **Headquarters:** Light Industries Industrial Zone, Beni Suef, Egypt
-**Website:** https://goldeneast-agri.com
+**Website:** https://golden-east.com
 **Languages:** English, Arabic
 
 ## Description
@@ -100,7 +100,7 @@ Balanced NPK 20-20-20 for general plant nutrition.
 
 ## Business Model
 
-The company operates on a B2B lead generation model. The website (https://goldeneast-agri.com) serves as a digital storefront enabling prospective customers to:
+The company operates on a B2B lead generation model. The website (https://golden-east.com) serves as a digital storefront enabling prospective customers to:
 
 - Browse the product catalog
 - Build quote requests with desired quantities

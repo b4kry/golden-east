@@ -201,7 +201,7 @@ export default async function ProductPage({
                 {product.composition.map((item) => (
                   <span
                     key={item.name}
-                    className="rounded-xl border border-border/60 bg-surface-alt px-3 py-1 text-sm font-medium text-muted-foreground"
+                    className="rounded-full border border-[#C7DDB7] bg-[#EEF5E8] px-3 py-1 text-xs font-medium tracking-[0.01em] text-[#214D21] transition-colors hover:bg-[#E2EFD4]"
                     role="listitem"
                   >
                     {isArabic && item.nameAr ? item.nameAr : item.name} {item.value}

@@ -29,13 +29,27 @@ export function proxy(request: NextRequest) {
       pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   )
 
-  if (pathnameHasLocale) return NextResponse.next()
+  if (pathnameHasLocale) {
+    const response = NextResponse.next()
+    response.cookies.set("NEXT_LOCALE", pathname.split("/")[1], {
+      path: "/",
+      maxAge: 31536000,
+      sameSite: "lax",
+    })
+    return response
+  }
 
   const locale = getLocale(request)
   request.nextUrl.pathname = `/${locale}${pathname}`
-  return NextResponse.redirect(request.nextUrl)
+  const response = NextResponse.redirect(request.nextUrl)
+  response.cookies.set("NEXT_LOCALE", locale, {
+    path: "/",
+    maxAge: 31536000,
+    sameSite: "lax",
+  })
+  return response
 }
 
 export const config = {
-  matcher: ["/((?!_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 }

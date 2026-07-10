@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
-import { MapPin } from "lucide-react"
+import { Mail, MapPin } from "lucide-react"
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
 import { company } from "@/data/company"
 import { locales, isLocale, getDictionary, SITE_URL } from "@/lib/i18n"
 import { Container } from "@/components/layout/container"
+import { ContactForm } from "@/components/contact/contact-form"
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -36,19 +37,13 @@ export async function generateMetadata({
       isArabic ? "تواصل" : "",
       isArabic ? "استفسارات زراعية" : "",
     ].filter(Boolean),
-    robots: {
-      index: true,
-      follow: true,
-    },
+    robots: { index: true, follow: true },
     authors: [{ name: company.nameEn }],
     creator: company.nameEn,
     publisher: company.nameEn,
     alternates: {
       canonical: `${SITE_URL}/${locale}/contact`,
-      languages: {
-        en: `${SITE_URL}/en/contact`,
-        ar: `${SITE_URL}/ar/contact`,
-      },
+      languages: { en: `${SITE_URL}/en/contact`, ar: `${SITE_URL}/ar/contact` },
     },
     openGraph: {
       title,
@@ -58,14 +53,7 @@ export async function generateMetadata({
       locale: locale === "ar" ? "ar_EG" : "en_US",
       alternateLocale: locale === "ar" ? ["en_US"] : ["ar_EG"],
       type: "website",
-      images: [
-        {
-          url: `${SITE_URL}/opengraph-image.png`,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
+      images: [{ url: `${SITE_URL}/opengraph-image.png`, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
@@ -98,6 +86,15 @@ export default async function ContactPage({
       value: addressDisplay.join(", "),
       lines: addressDisplay,
       icon: MapPin,
+    },
+    {
+      label: dict.contact.email.title,
+      icon: Mail,
+      emails: [
+        { title: dict.contact.email.generalInquiries, address: "info@golden-east.com" },
+        { title: dict.contact.email.sales, address: "sales@golden-east.com" },
+        { title: dict.contact.email.technicalSupport, address: "support@golden-east.com" },
+      ],
     },
   ]
 
@@ -147,13 +144,7 @@ export default async function ContactPage({
         addressLocality: isArabic ? company.location.city : company.location.cityEn,
         addressCountry: isArabic ? company.location.country : company.location.countryEn,
       },
-      contactPoint: [
-        {
-          "@type": "ContactPoint",
-          contactType: "sales",
-          availableLanguage: ["English", "Arabic"],
-        },
-      ],
+      contactPoint: [{ "@type": "ContactPoint", contactType: "sales", availableLanguage: ["English", "Arabic"] }],
     },
   }
 
@@ -168,14 +159,8 @@ export default async function ContactPage({
 
   return (
     <Container className="py-16 sm:py-24">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="text-3xl font-bold leading-tight tracking-[-0.02em] sm:text-[2.625rem]">
           {dict.contact.title}
@@ -202,12 +187,8 @@ export default async function ContactPage({
                 <FaWhatsapp className="size-6" />
               </div>
               <div>
-                <h2 className="text-base font-semibold text-foreground">
-                  {whatsappLink.label}
-                </h2>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  {whatsappDescription}
-                </p>
+                <h2 className="text-base font-semibold text-foreground">{whatsappLink.label}</h2>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{whatsappDescription}</p>
               </div>
             </a>
           )}
@@ -218,20 +199,35 @@ export default async function ContactPage({
                 <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary-light/20 text-primary">
                   <card.icon className="size-5" aria-hidden="true" />
                 </div>
-                <div>
+                <div className="min-w-0 flex-1">
                   <h2 className="text-sm font-semibold text-foreground">{card.label}</h2>
-                  <div className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    {"lines" in card && card.lines ? (
-                      (card as typeof card & { lines: string[] }).lines.map((line, i) => (
+                  {"emails" in card && card.emails ? (
+                    <div className="mt-2 space-y-2">
+                      {(card as typeof card & { emails: Array<{ title: string; address: string }> }).emails.map((item) => (
+                        <div key={item.address} className="flex items-center gap-2 text-sm leading-relaxed">
+                          <span className="shrink-0 text-muted-foreground">{item.title}</span>
+                          <a
+                            href={`mailto:${item.address}`}
+                            className="truncate text-foreground underline-offset-2 transition-colors hover:text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 rounded-sm"
+                            aria-label={`${item.title}: ${item.address}`}
+                          >
+                            {item.address}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  ) : "lines" in card && card.lines ? (
+                    <div className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      {(card as typeof card & { lines: string[] }).lines.map((line, i) => (
                         <span key={i}>
                           {line}
                           {i < (card as typeof card & { lines: string[] }).lines.length - 1 && <br />}
                         </span>
-                      ))
-                    ) : (
-                      <p>{card.value}</p>
-                    )}
-                  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{(card as { value?: string }).value}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -265,83 +261,7 @@ export default async function ContactPage({
           )}
         </div>
 
-        <form
-          className="rounded-2xl border border-border/50 bg-card p-8 shadow-card"
-          action="/api/contact"
-          method="POST"
-        >
-          <div className="space-y-5">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-foreground">
-                {dict.contact.form.name}
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                className="mt-1.5 block w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground">
-                {dict.contact.form.email}
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                className="mt-1.5 block w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-foreground">
-                {dict.contact.form.phone}
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                className="mt-1.5 block w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="company" className="block text-sm font-medium text-foreground">
-                {dict.contact.form.company}
-              </label>
-              <input
-                type="text"
-                id="company"
-                name="company"
-                className="mt-1.5 block w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-foreground">
-                {dict.contact.form.message}
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                required
-                className="mt-1.5 block w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-primary px-6 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-200 hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-ring/20"
-            >
-              {dict.contact.form.submit}
-            </button>
-          </div>
-        </form>
+        <ContactForm dict={dict} locale={locale} />
       </div>
     </Container>
   )

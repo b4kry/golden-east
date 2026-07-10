@@ -47,6 +47,8 @@ export interface Product {
 
   heroProduct: boolean
 
+  registered: boolean
+
   sortOrder: number
 
   status: "active" | "coming-soon"
@@ -137,6 +139,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: true,
+    registered: true,
     sortOrder: 1,
 
     status: "active",
@@ -238,6 +241,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: true,
     sortOrder: 2,
 
     status: "active",
@@ -343,6 +347,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: false,
     sortOrder: 3,
 
     status: "active",
@@ -404,6 +409,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: true,
     sortOrder: 4,
 
     status: "active",
@@ -481,6 +487,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: true,
     sortOrder: 5,
 
     status: "active",
@@ -560,6 +567,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: true,
     sortOrder: 6,
 
     status: "active",
@@ -640,6 +648,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: true,
     sortOrder: 7,
 
     status: "active",
@@ -723,6 +732,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: true,
     sortOrder: 8,
 
     status: "active",
@@ -798,6 +808,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: true,
     sortOrder: 9,
 
     status: "active",
@@ -875,6 +886,7 @@ export const products: Product[] = [
 
     featured: true,
     heroProduct: false,
+    registered: true,
     sortOrder: 10,
 
     status: "active",
