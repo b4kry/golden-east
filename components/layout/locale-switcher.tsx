@@ -10,7 +10,7 @@ const LOCALE_COOKIE = "NEXT_LOCALE"
 const COOKIE_MAX_AGE = 31536000
 
 function setLocaleCookie(locale: string): void {
-  const secure = window.location.protocol === "https:" ? "; Secure" : ""
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : ""
   document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=${COOKIE_MAX_AGE}; sameSite=lax${secure}`
 }
 
