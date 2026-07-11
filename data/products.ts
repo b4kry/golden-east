@@ -206,6 +206,7 @@ export const products: Product[] = [
       { name: "Potassium (K)", value: "10%", nameAr: "بوتاسيوم" },
       { name: "Magnesium (Mg)", value: "3%", nameAr: "ماغنسيوم" },
       { name: "Amino Acids", value: "23%", nameAr: "أحماض أمينية" },
+      { name: "humate", value: "10%", nameAr: "هيومات"  }
     ],
 
     benefits: [
@@ -295,7 +296,7 @@ export const products: Product[] = [
       { name: "Nitrogen (N)", value: "24%", nameAr: "نيتروجين" },
       { name: "Potassium (K₂O)", value: "18%", nameAr: "بوتاسيوم" },
       { name: "Calcium (Ca)", value: "5%", nameAr: "كالسيوم" },
-      { name: "Amino Acids", value: "Contains", nameAr: "أحماض أمينية" },
+      { name: "Amino Acids", value: "", nameAr: "أحماض أمينية" },
     ],
 
     benefits: [
@@ -376,8 +377,8 @@ export const products: Product[] = [
       { name: "Nitrogen (N)", value: "8%", nameAr: "نيتروجين" },
       { name: "Calcium (Ca)", value: "5%", nameAr: "كالسيوم" },
       { name: "Potassium (K)", value: "12%", nameAr: "بوتاسيوم" },
-      { name: "Amino Acids", value: "Contains", nameAr: "أحماض أمينية" },
-      { name: "Micronutrients", value: "Contains", nameAr: "عناصر صغرى" },
+      { name: "Amino Acids", value: "", nameAr: "أحماض أمينية" },
+      { name: "Micronutrients", value: "", nameAr: "عناصر صغرى" },
     ],
 
     benefits: [
@@ -614,7 +615,7 @@ export const products: Product[] = [
     composition: [
       { name: "Calcium (Ca)", value: "15%", nameAr: "كالسيوم" },
       { name: "Nitrogen (N)", value: "10%", nameAr: "نيتروجين" },
-      { name: "Magnesium (Mg)", value: "5%", nameAr: "ماغنسيوم" },
+      { name: "Magnesium (Mg)", value: "1.5%", nameAr: "ماغنسيوم" },
       { name: "Potassium (K)", value: "8%", nameAr: "بوتاسيوم" },
     ],
 
@@ -699,9 +700,9 @@ export const products: Product[] = [
       { name: "Iron (Fe)", value: "2%", nameAr: "حديد" },
       { name: "Manganese (Mn)", value: "1%", nameAr: "منجنيز" },
       { name: "Zinc (Zn)", value: "1%", nameAr: "زنك" },
-      { name: "Copper (Cu)", value: "0.2%", nameAr: "نحاس" },
+      { name: "Copper (Cu)", value: "2%", nameAr: "نحاس" },
       { name: "Boron (B)", value: "0.25%", nameAr: "بورون" },
-      { name: "Molybdenum (Mo)", value: "0.06%", nameAr: "مولبيدنيوم" },
+      { name: "Molybdenum (Mo)", value: "0.6%", nameAr: "مولبيدنيوم" },
     ],
 
     benefits: [
@@ -780,6 +781,8 @@ export const products: Product[] = [
     composition: [
       { name: "Potassium (K₂O)", value: "45%", nameAr: "بوتاسيوم" },
       { name: "Nitrate Nitrogen (NO₃-N)", value: "10%", nameAr: "نيتروجين نتراتي" },
+      { name: "Amino Acids", value: "", nameAr: "أحماض أمينية" },
+      { name: "Micronutrients", value: "", nameAr: "عناصر صغرى" },
     ],
 
     benefits: [
@@ -916,4 +919,97 @@ export const products: Product[] = [
     packaging: "عبوات 5 كجم / 10 كجم / 20 كجم",
     packagingEn: "5 kg / 10 kg / 20 kg packages",
   },
+{
+  id: "alsaher-mix",
+  slug: "alsaher-mix",
+
+  nameAr: "الساحر ميكس",
+  nameEn: "ALSAHER MIX",
+
+  category: "Compound Fertilizer",
+  categoryAr: "سماد مركب",
+
+  shortDescriptionAr:
+    "سماد مركب يحتوي على العناصر الصغرى المخلبية بالإضافة إلى الأحماض الأمينية والعناصر الكبرى، لتحسين النمو والإنتاجية ورفع جودة المحصول.",
+
+  shortDescriptionEn:
+    "Compound fertilizer containing chelated micronutrients, amino acids, and primary nutrients to improve plant growth, productivity, and crop quality.",
+
+  composition: [
+    { name: "Iron (Fe)", value: "", nameAr: "حديد" },
+    { name: "Zinc (Zn)", value: "", nameAr: "زنك" },
+    { name: "Manganese (Mn)", value: "", nameAr: "منجنيز" },
+    { name: "Boron (B)", value: "", nameAr: "بورون" },
+    { name: "NPK", value: "", nameAr: "العناصر الكبرى (NPK)" },
+    { name: "Amino Acids", value: "", nameAr: "أحماض أمينية" },
+    { name: "Chelated Micronutrients", value: "", nameAr: "عناصر صغرى مخلبية" },
+  ],
+
+  benefits: [
+    "تركيبة من العناصر الصغرى المخلبية مع الأحماض الأمينية في صورة صالحة وسريعة الامتصاص بواسطة النبات.",
+    "تحفز عملية التمثيل الضوئي وانقسام الخلايا مما يحسن النمو الخضري والثمري.",
+    "تحمي النبات من ظهور أعراض نقص العناصر وتزيد من مقاومته للأمراض الفسيولوجية.",
+    "تنشط الجهاز الإنزيمي للنبات وتساعد في تكوين الإنزيمات الضرورية لعمليات التنفس والأيض.",
+    "ترفع نسبة المادة الجافة في البذور والثمار والدرنات والأبصال مما يزيد القدرة التخزينية للمحصول.",
+  ],
+
+  benefitsEn: [
+    "Chelated micronutrients combined with amino acids for fast absorption and maximum availability.",
+    "Enhances photosynthesis and cell division, promoting stronger vegetative and reproductive growth.",
+    "Helps prevent micronutrient deficiencies and improves plant resistance to physiological disorders.",
+    "Activates plant enzyme systems essential for respiration and metabolic processes.",
+    "Increases dry matter accumulation in seeds, fruits, tubers, and bulbs, improving storage quality.",
+  ],
+
+  applicationRate:
+    "يستخدم وفق برنامج التسميد الموصى به حسب نوع المحصول ومرحلة النمو.",
+
+  applicationRateEn:
+    "Apply according to the recommended fertilization program based on crop type and growth stage.",
+
+  suitableCrops: [
+    "محاصيل الخضر",
+    "محاصيل الفاكهة",
+    "المحاصيل الحقلية",
+    "النباتات الطبية والعطرية",
+  ],
+
+  suitableCropsEn: [
+    "Vegetables",
+    "Fruit Crops",
+    "Field Crops",
+    "Medicinal and Aromatic Plants",
+  ],
+
+  images: {
+    cover: "/products/covers/alsahermix.png",
+    gallery: [],
+  },
+
+  featured: false,
+  heroProduct: false,
+  registered: true,
+  sortOrder: 10,
+
+  status: "active",
+
+  tags: [
+    "micronutrients",
+    "chelated",
+    "amino-acids",
+    "npk",
+    "foliar",
+  ],
+
+  tagsAr: [
+    "عناصر صغرى",
+    "مخلبية",
+    "أحماض أمينية",
+    "إن بي كي",
+    "رش ورقي",
+  ],
+
+  packaging: "عبوات 1 كجم / 5 كجم",
+  packagingEn: "1 kg / 5 kg packages",
+},
 ]
