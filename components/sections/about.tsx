@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { Section, SectionHeader } from "@/components/layout/section"
 import { Button } from "@/components/ui/button"
-import { CompanyStats } from "./company-stats"
 import { company, about } from "@/data/company"
 import { getDictionary, isLocale, defaultLocale } from "@/lib/i18n"
 
@@ -24,8 +23,6 @@ async function About({ locale, compact }: { locale?: string; compact?: boolean }
       <p className="mx-auto mt-12 max-w-3xl text-center text-lg leading-relaxed text-muted-foreground">
         {description}
       </p>
-
-      <CompanyStats isArabic={isArabic} />
 
       {compact ? (
         <div className="mt-10 flex justify-center">

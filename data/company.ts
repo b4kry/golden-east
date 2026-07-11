@@ -73,7 +73,6 @@ export interface AboutInfo {
   visionAr?: string
   storyEn: string
   storyAr?: string
-  stats: Array<{ labelEn: string; labelAr?: string; valueEn: string; valueAr?: string }>
 }
 
 export const about: AboutInfo = {
@@ -91,14 +90,6 @@ export const about: AboutInfo = {
 
   storyEn: "",
   storyAr: "",
-
-  stats: [
-    { labelEn: "Founded", labelAr: "تأسست عام", valueEn: "2016" },
-    { labelEn: "Products", labelAr: "منتج زراعي", valueEn: "9+" },
-    { labelEn: "Distribution", labelAr: "تغطية جغرافية", valueEn: "10+ Governorates", valueAr: "أكثر من ١٠ محافظات" },
-    { labelEn: "Agricultural Cooperatives", labelAr: "جمعية زراعية شريكة", valueEn: "200+" },
-    { labelEn: "Strategic Partnerships", labelAr: "شراكة استراتيجية", valueEn: "3+" },
-  ],
 }
 
 export interface WhyChooseUsItem {
