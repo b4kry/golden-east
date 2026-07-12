@@ -11,8 +11,11 @@ import { WhatsAppButton } from "@/components/shared/whatsapp-button"
 import { ToastProvider } from "@/components/ui/toast"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { AnalyticsLoader } from "@/components/shared/analytics-loader"
+import { GoogleAnalytics } from "@next/third-parties/google"
 import { CookieBanner } from "@/components/shared/cookie-banner"
+import { ConsentSyncer } from "@/components/shared/consent-syncer"
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -160,6 +163,14 @@ export default async function RootLayout({
     keywords: "agricultural fertilizers, plant nutrition, Egypt agriculture",
   }
 
+  const consentDefaults = {
+    analytics_storage: "denied",
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    wait_for_update: 500,
+  }
+
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -201,6 +212,16 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
+        <script
+          id="google-consent-defaults"
+          dangerouslySetInnerHTML={{
+            __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', ${JSON.stringify(consentDefaults)});
+`,
+          }}
+        />
       </head>
       <body className="flex min-h-full flex-col">
         <a
@@ -220,8 +241,9 @@ export default async function RootLayout({
               <WhatsAppButton />
               <Analytics />
               <SpeedInsights />
-              <AnalyticsLoader />
+              {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
               <CookieBanner />
+              <ConsentSyncer />
             </ToastProvider>
           </QuoteProvider>
         </LocaleProvider>

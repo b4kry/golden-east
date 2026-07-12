@@ -3,8 +3,23 @@
 import { useState, useSyncExternalStore } from "react"
 import Link from "next/link"
 import { X } from "lucide-react"
+import { sendGAEvent } from "@next/third-parties/google"
 import { getConsent, setConsent } from "@/lib/consent"
 import { useLocale } from "@/contexts/locale-context"
+
+const CONSENT_UPDATE = {
+  analytics_storage: "granted" as const,
+  ad_storage: "granted" as const,
+  ad_user_data: "granted" as const,
+  ad_personalization: "granted" as const,
+}
+
+const CONSENT_DENY = {
+  analytics_storage: "denied" as const,
+  ad_storage: "denied" as const,
+  ad_user_data: "denied" as const,
+  ad_personalization: "denied" as const,
+}
 
 function subscribe() {
   return () => {}
@@ -20,6 +35,18 @@ export function CookieBanner() {
   const [dismissed, setDismissed] = useState(false)
   const locale = useLocale()
   const isArabic = locale === "ar"
+
+  const handleAccept = () => {
+    setConsent("accepted")
+    setDismissed(true)
+    sendGAEvent("consent", "update", CONSENT_UPDATE)
+  }
+
+  const handleReject = () => {
+    setConsent("rejected")
+    setDismissed(true)
+    sendGAEvent("consent", "update", CONSENT_DENY)
+  }
 
   const visible = consent === null && !dismissed
 
@@ -42,7 +69,7 @@ export function CookieBanner() {
           </p>
           <button
             type="button"
-            onClick={() => { setConsent("rejected"); setDismissed(true) }}
+            onClick={handleReject}
             className="shrink-0 rounded-lg p-1 text-muted-foreground transition-colors hover:bg-surface-alt hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring/20"
             aria-label={isArabic ? "إغلاق" : "Close"}
           >
@@ -53,14 +80,14 @@ export function CookieBanner() {
         <div className="mt-5 flex flex-wrap items-center gap-2">
           <button
             type="button"
-            onClick={() => { setConsent("accepted"); setDismissed(true) }}
+            onClick={handleAccept}
             className="inline-flex h-9 items-center justify-center rounded-xl bg-primary px-5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-200 hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-ring/20"
           >
             {isArabic ? "قبول" : "Accept"}
           </button>
           <button
             type="button"
-            onClick={() => { setConsent("rejected"); setDismissed(true) }}
+            onClick={handleReject}
             className="inline-flex h-9 items-center justify-center rounded-xl border border-border/60 bg-background px-5 text-sm font-medium text-foreground transition-all duration-200 hover:bg-surface-alt focus:outline-none focus:ring-2 focus:ring-ring/20"
           >
             {isArabic ? "رفض" : "Reject"}
