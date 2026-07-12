@@ -26,11 +26,15 @@ export function LocaleSwitcher({ compact }: { compact?: boolean }) {
   const label = currentLocale === "en" ? "العربية" : "English"
   const compactLabel = currentLocale === "en" ? "ع" : "EN"
 
+  const handleClick = () => {
+    setLocaleCookie(otherLocale)
+  }
+
   if (compact) {
     return (
       <a
         href={switchHref}
-        onClick={() => setLocaleCookie(otherLocale)}
+        onClick={handleClick}
         rel="alternate"
         hrefLang={otherLocale}
         aria-label={currentLocale === "en" ? "التبديل إلى العربية" : "Switch to Arabic"}
@@ -50,7 +54,7 @@ export function LocaleSwitcher({ compact }: { compact?: boolean }) {
       asChild
       aria-label={currentLocale === "en" ? "التبديل إلى العربية" : "Switch to Arabic"}
     >
-      <a href={switchHref} onClick={() => setLocaleCookie(otherLocale)} rel="alternate" hrefLang={otherLocale}>
+      <a href={switchHref} onClick={handleClick} rel="alternate" hrefLang={otherLocale}>
         {label}
       </a>
     </Button>

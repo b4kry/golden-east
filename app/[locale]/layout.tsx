@@ -11,6 +11,8 @@ import { WhatsAppButton } from "@/components/shared/whatsapp-button"
 import { ToastProvider } from "@/components/ui/toast"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { AnalyticsLoader } from "@/components/shared/analytics-loader"
+import { CookieBanner } from "@/components/shared/cookie-banner"
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -218,6 +220,8 @@ export default async function RootLayout({
               <WhatsAppButton />
               <Analytics />
               <SpeedInsights />
+              <AnalyticsLoader />
+              <CookieBanner />
             </ToastProvider>
           </QuoteProvider>
         </LocaleProvider>

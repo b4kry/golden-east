@@ -84,7 +84,7 @@ export default async function PrivacyPage({
         {
           title: "ملفات تعريف الارتباط (Cookies)",
           content:
-            "يستخدم موقعنا ملف تعريف ارتباط واحد (NEXT_LOCALE) لتذكر تفضيل اللغة الذي اخترته. هذا الملف:\n\n• ضروري لوظيفة الموقع الأساسية\n• لا يُستخدم للتتبع أو الإعلانات\n• يمكن تعطيله من خلال إعدادات المتصفح (قد يؤثر ذلك على تجربة الاستخدام)",
+            "يستخدم موقعنا الحد الأدنى من ملفات تعريف الارتباط. نحن نحترم خصوصيتك ونمنحك التحكم:\n\n• NEXT_LOCALE — ملف تعريف ارتباط أساسي لتذكر تفضيل اللغة. نشط دائماً ولا يتطلب موافقة.\n• cookie_consent — يخزن اختيار موافقتك على ملفات تعريف الارتباط (مقبول أو مرفوض). تنتهي صلاحيته بعد ٣٦٥ يوماً.\n\nإذا قبلت، قد يستخدم Google Analytics ملفات تعريف الارتباط لجمع بيانات استخدام مجهولة. لا يتم جمع أو مشاركة معلومات شخصية مع أطراف ثالثة.",
         },
         {
           title: "الاحتفاظ بالبيانات",
@@ -136,7 +136,7 @@ export default async function PrivacyPage({
         {
           title: "Cookies",
           content:
-            "Our website uses one cookie (NEXT_LOCALE) to remember your language preference. This cookie:\n\n• Is strictly necessary for basic site functionality\n• Is not used for tracking or advertising\n• Can be disabled via browser settings (may affect user experience)",
+            "Our website uses minimal cookies. We respect your privacy and give you control:\n\n• NEXT_LOCALE — essential cookie that remembers your language preference. Always active, no consent required.\n• cookie_consent — stores your cookie consent choice (accepted or rejected). Expires after 365 days.\n\nGoogle Analytics (if accepted) uses cookies to collect anonymous usage data. No personal information is collected or shared with third parties.",
         },
         {
           title: "Data Retention",
@@ -188,6 +188,8 @@ export default async function PrivacyPage({
             </section>
           ))}
         </div>
+
+
       </article>
     </Container>
   )
