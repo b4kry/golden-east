@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useSyncExternalStore } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { X } from "lucide-react"
 import { sendGAEvent } from "@next/third-parties/google"
@@ -21,20 +21,26 @@ const CONSENT_DENY = {
   ad_personalization: "denied" as const,
 }
 
-function subscribe() {
-  return () => {}
-}
-
-function getClientConsent() {
-  if (typeof document === "undefined") return null
-  return getConsent()
-}
+let _gaConsentSynced = false
 
 export function CookieBanner() {
-  const consent = useSyncExternalStore(subscribe, getClientConsent, () => null)
+  const [mounted, setMounted] = useState(false)
   const [dismissed, setDismissed] = useState(false)
   const locale = useLocale()
   const isArabic = locale === "ar"
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
+  const consent = getConsent()
+
+  if (consent === "accepted" && !_gaConsentSynced) {
+    _gaConsentSynced = true
+    sendGAEvent("consent", "update", CONSENT_UPDATE)
+  }
 
   const handleAccept = () => {
     setConsent("accepted")
