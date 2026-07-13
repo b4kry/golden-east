@@ -1,27 +1,24 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { X } from "lucide-react"
-import { sendGAEvent } from "@next/third-parties/google"
 import { getConsent, setConsent } from "@/lib/consent"
 import { useLocale } from "@/contexts/locale-context"
 
-const CONSENT_UPDATE = {
+const CONSENT_GRANTED = {
   analytics_storage: "granted" as const,
   ad_storage: "granted" as const,
   ad_user_data: "granted" as const,
   ad_personalization: "granted" as const,
 }
 
-const CONSENT_DENY = {
+const CONSENT_DENIED = {
   analytics_storage: "denied" as const,
   ad_storage: "denied" as const,
   ad_user_data: "denied" as const,
   ad_personalization: "denied" as const,
 }
-
-let _gaConsentSynced = false
 
 export function CookieBanner() {
   const [mounted, setMounted] = useState(false)
@@ -33,27 +30,29 @@ export function CookieBanner() {
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    if (!mounted) return
+    const consent = getConsent()
+    if (consent === "accepted") {
+      window.gtag?.("consent", "update", CONSENT_GRANTED)
+    }
+  }, [mounted])
+
   if (!mounted) return null
-
-  const consent = getConsent()
-
-  if (consent === "accepted" && !_gaConsentSynced) {
-    _gaConsentSynced = true
-    sendGAEvent("consent", "update", CONSENT_UPDATE)
-  }
 
   const handleAccept = () => {
     setConsent("accepted")
     setDismissed(true)
-    sendGAEvent("consent", "update", CONSENT_UPDATE)
+    window.gtag?.("consent", "update", CONSENT_GRANTED)
   }
 
   const handleReject = () => {
     setConsent("rejected")
     setDismissed(true)
-    sendGAEvent("consent", "update", CONSENT_DENY)
+    window.gtag?.("consent", "update", CONSENT_DENIED)
   }
 
+  const consent = getConsent()
   const visible = consent === null && !dismissed
 
   if (!visible) return null

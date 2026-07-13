@@ -13,6 +13,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from "@next/third-parties/google"
 import { CookieBanner } from "@/components/shared/cookie-banner"
+import { PageViewTracker } from "@/components/shared/page-view-tracker"
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
 
@@ -241,6 +242,7 @@ gtag('consent', 'default', ${JSON.stringify(consentDefaults)});
               <Analytics />
               <SpeedInsights />
               {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
+              <PageViewTracker />
               <CookieBanner />
             </ToastProvider>
           </QuoteProvider>
